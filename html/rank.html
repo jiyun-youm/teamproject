@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/rank.css">
+</head>
+<body>
+    <!-- 왼쪽 네비게이션 -->
+    <nav>
+        <!-- 위쪽 아이콘 -->
+        <div class="nav-top">
+            <a href="#"><img src="../icon/home.png" alt="home"></a>
+            <a href="#"><img src="../icon/search.png" alt="search"></a>
+            <a href="#"><img src="../icon/compass.png" alt="compass"></a>
+            <a href="#"><img src="../icon/award.png" alt="award"></a>
+        </div>
+        <!-- 아래쪽 아이콘 -->
+        <div class="nav-bottom">
+            <a href="#"><img src="../icon/user.png" alt="user"></a>
+            <a href="#"><img src="../icon/logOut.png" alt="logout"></a>
+        </div>
+    </nav>
+
+    <!-- 오른쪽 메인 영역 -->
+    <div class="main">
+      <div class="rank">
+        <div class="rank-header">
+          <h1>지역별 BEST 맛집 리스트</h1>
+          <img src="../icon/loc.png" alt="pin" class="pin-icon">         
+        </div>
+        <div class="rank-content">
+          <ul id="rankList" class="rank-list"></ul>
+          <div class="loc">
+            <h2>지역</h2>
+            <ul class="loc-list"></ul>
+          </div>
+          <div class="store">
+            <h2>리뷰</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 데이터 로딩 및 렌더링 -->
+  <script>
+  // 전역 보관용
+  let districtRanking = []; // 모든 구 단위 합계 랭킹
+
+  fetch('../json/review.json')
+    .then(res => res.json())
+    .then(data => {
+      // (A) 메인 카드: 강남구만 (기존 로직 유지)
+      const gangnamOnly = data.filter(s => s.location?.district === "강남구");
+
+      const city = gangnamOnly[0]?.location?.city ?? '';
+      const district = gangnamOnly[0]?.location?.district ?? '';
+      document.querySelector('.rank h1').textContent =
+        `${city} ${district} BEST 맛집 리스트`;
+
+      const ranked = gangnamOnly.map(s => {
+        const ratings = (s.reviews || []).map(r => Number(r.rating) || 0);
+        const sum = ratings.reduce((a, b) => a + b, 0);
+        const sumInt = parseInt(sum);
+        return { ...s, sumInt, count: ratings.length };
+      }).sort((a, b) => b.sumInt - a.sumInt || b.count - a.count);
+
+      document.getElementById('rankList').innerHTML =
+        ranked.map((s, idx) => cardHTML(idx + 1, s)).join('');
+
+      // (B) 구 단위 집계: review.json의 모든 가게를 city+district 로 묶어서 rating 총합 계산
+      const districtMap = new Map();
+      for (const shop of data) {
+        const c = shop.location?.city ?? '';
+        const d = shop.location?.district ?? '';
+        if (!d) continue; // district 없는 경우 스킵
+
+        // 구 이름(표시용): "서울시 강남구" 형태
+        const regionName = `${c} ${d}`.trim();
+
+        // 가게의 rating 합
+        const shopSum = (shop.reviews || [])
+          .map(r => Number(r.rating) || 0)
+          .reduce((a, b) => a + b, 0);
+
+        const prev = districtMap.get(regionName) ?? { region: regionName, sum: 0, sumInt: 0, reviewCount: 0, shopCount: 0 };
+        const nextSum = prev.sum + shopSum;
+        districtMap.set(regionName, {
+          region: regionName,
+          sum: nextSum,
+          sumInt: parseInt(nextSum),           // 총합의 정수부
+          reviewCount: prev.reviewCount + (shop.reviews?.length || 0),
+          shopCount: prev.shopCount + 1
+        });
+      }
+
+      // 배열로 변환 후 정렬 (총합 정수부 내림차순 → 리뷰수 보조키)
+      districtRanking = Array.from(districtMap.values())
+        .sort((a, b) => b.sumInt - a.sumInt || b.reviewCount - a.reviewCount);
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('rankList').innerHTML =
+        `<li class="error">데이터를 불러오지 못했습니다.</li>`;
+    });
+
+  // 카드 템플릿(기존 그대로)
+  function cardHTML(rank, s) {
+    const address = `${s.location?.city ?? ''} ${s.location?.district ?? ''} ${s.location?.address ?? ''}`.trim();
+
+    let thumbPhoto = "../img/default.jpg";
+    if (s.reviews?.length) {
+      const bestReview = s.reviews.reduce((best, r) =>
+        (Number(r.rating) > Number(best.rating) ? r : best), s.reviews[0]);
+      if (bestReview.photo) thumbPhoto = bestReview.photo;
+    }
+
+    let bgColor;
+    switch (rank) {
+      case 1: bgColor = "#FF7B00"; break;
+      case 2: bgColor = "#FBA62C"; break;
+      case 3: bgColor = "#F9BC42"; break;
+      case 4: bgColor = "#F8C74D"; break;
+      default: bgColor = "#F7D157";
+    }
+
+    return `
+      <li class="card" style="background:${bgColor}">
+        <div class="rank-badge">${rank}</div>
+        <div class="thumb"><img src="${thumbPhoto}" alt="${s.name}"></div>
+        <div class="info">
+          <h3 class="name">${s.name}</h3>
+          <div class="rating-row">
+            <img src="../icon/pin.png" alt="핀" class="pin-small"/>
+            <span class="score">${s.sumInt}</span>
+            <span class="count">리뷰(${s.count}건)</span>
+          </div>
+          <p class="addr">${address}</p>
+        </div>
+      </li>
+    `;
+  }
+
+  // ✅ pin 클릭: "모든 구의 rating 총합 랭킹"을 .loc 패널에 렌더
+  const pin = document.querySelector(".pin-icon");
+  pin.addEventListener("click", () => {
+    const loc = document.querySelector(".loc");
+    const listEl = document.querySelector(".loc .loc-list");
+
+    loc.classList.toggle("active");
+
+    if (loc.classList.contains("active")) {
+      const h2 = loc.querySelector("h2");
+      if (h2) h2.textContent = `지역구별 rating 총합 랭킹`;
+
+      listEl.innerHTML = districtRanking.map((item, i) => `
+        <li class="loc-item">
+          <span class="loc-rank">${i + 1}</span>
+          <span class="loc-name">${item.region}</span>
+          <span class="loc-sum">${item.sumInt}</span>
+        </li>
+      `).join('');
+    }
+  });
+</script>
+
+
+
+
+</body>
+</html>

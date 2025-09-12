@@ -1,0 +1,230 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html { scrollbar-gutter: stable both-edges; }
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row; /* nav와 main을 좌/우 배치 */
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* 왼쪽 네비게이션 */
+nav {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 위쪽(top)과 아래쪽(bottom) 분리 */
+    align-items: center;
+    padding: 20px 0;
+    border-right: 1px solid #ccc;
+    width: 60px;
+}
+
+nav a {
+    margin: 15px 0;
+}
+
+nav img {
+    width: 28px;
+    height: 28px;
+}
+
+/* nav 내부 그룹 */
+.nav-top, .nav-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main {
+    flex: 1;
+    display: flex; /* 좌/우 나누기 */
+}
+
+.rank{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  border-right: 1px solid #ddd;
+  background:#fff;
+  min-width: 0;
+}
+
+/* 상단바 */
+.rank-header{
+  width:100%;
+  height:70px;
+  border-bottom:1px solid #ddd;
+  position: sticky; top:0; z-index:10;
+  display:flex; justify-content:space-between; align-items:center;
+  background:#fff;
+}
+
+/* 제목 */
+.rank-header h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+  padding-left: 30px;
+}
+
+/* 핀 아이콘 */
+.rank-header .pin-icon{ width:36px; height:36px; padding:30px; cursor:pointer; }
+
+.rank-content{
+  flex:1;
+  display:flex;            /* ⬅️ 가로 두 칸 */
+  min-height:0;            /* 내부 스크롤 허용 */
+}
+
+/* 왼쪽: 리스트(스크롤) */
+.rank-list{
+  list-style:none;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin:0; padding:12px 0;
+  flex:1;                  /* 좌측이 남는 폭 전부 */
+  overflow-y:auto;         /* ⬅️ 리스트만 스크롤 */
+  min-width:0;
+}
+/* 카드 디자인 */
+.card{
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 5px 20px;
+  gap: 14px;
+  padding: 14px 18px;
+  background: #fbc4c4;           /* 연핑크 */
+  border: 1px solid #d18d8d;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+/* 랭크 숫자 */
+.rank-badge{
+  font-size: 28px;
+  font-weight: 700;
+  color: #000;
+  margin-right: 12px;
+}
+
+/* 빨간 핀 */
+.pin-badge{
+  position: absolute;
+  left: 34px; top: 6px;
+  width: 22px; height: 22px;
+  transform: rotate(-18deg);
+}
+
+/* 별 대신 들어갈 작은 핀 */
+.rating-row .pin-small{
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+
+/* 썸네일(임시 플레이스홀더) */
+.thumb img{
+  width: 110px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* 정보영역 */
+.info{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.name{ font-size: 18px; font-weight: bold; }
+
+.rating-row{ display: flex; align-items: center; gap: 6px; font-size: 14px; }
+.score{ font-weight: bold; color:#000; }
+.count{ color: #555; font-size: 13px; }
+.addr{ font-size: 14px; color:#222; }
+
+/* 별점 막대 */
+.star-wrap{
+  position: relative;
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1;
+}
+.star-base{
+  color: #ddd;
+}
+.star-fill{
+  position: absolute; left: 0; top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #ffcc00;
+}
+
+/* 주소 */
+.addr{ font-size: 14px; color:#2b2b2b; }
+.loc, .store{
+  /* 레이아웃 */
+  flex: 0 0 0;            /* 너비 0에서 시작 → 왼쪽 리스트를 안 가림 */
+  max-width: 50%;
+  overflow: hidden;
+  border-left: 1px solid #ddd;
+  background: #eaf3ff;
+
+  /* 시각/모션 */
+  transform: translateX(100%);  /* 화면 밖에 대기 */
+  opacity: 0;
+  padding: 0;                   /* 닫힐 때 패딩도 0으로 */
+  transition:
+    flex-basis 0.4s ease,
+    transform 0.4s ease,
+    opacity 0.25s ease,
+    padding 0.25s ease;
+  will-change: transform, flex-basis, opacity;
+}
+
+.loc.active{
+  flex: 0 0 50%;          /* 화면의 오른쪽 절반 */
+  transform: translateX(0);
+  opacity: 1;
+  padding: 20px;          /* 열릴 때 안쪽 여백 복원 */
+}
+
+.loc .loc-list {
+  margin-top: 8px;
+  list-style: none;
+  padding: 0;
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.loc .loc-item {
+  display: grid;
+  grid-template-columns: 36px 1fr 80px; /* 순위 | 지역명 | 합계 */
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.loc .loc-rank { font-weight: 700; text-align: center; }
+.loc .loc-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.loc .loc-sum  { text-align: right; font-weight: 600; }
+
+.store{
+    flex: 1;
+    padding: 20px;
+    display: none;
+}

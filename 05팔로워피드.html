@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="05팔로워피드.css">
+
+</head>
+
+<body>
+    <!-- 메뉴 -->
+    <nav class="menu-bar">
+        <ul class="menu-list1">
+            <li><a href="#"><img src="icon/Home.png" alt="홈"></a></li>
+            <li><a href="#"><img src="icon/search.png" alt="서치"></a></li>
+            <li><a href="#"><img src="icon/Compass.png" alt="컴패스"></a></li>
+            <li><a href="#"><img src="icon/Award.png" alt="어워드"></a></li>
+        </ul>
+        <ul class="menu-list2">
+            <li><a href="#"><img src="icon/User.png" alt="유저"></a></li>
+            <li><a href="#"><img src="icon/Log in.png" alt="로그인"></a></li>
+        </ul>
+    </nav>
+    <!-- 게시글 -->
+    <div class="post">
+        <div class="content">
+            <div class="user">
+                <a href="#"><img src="icon/profile.png" alt="프로필"></a>
+                <p>user_1</p>
+            </div>
+
+            <div class="slider">
+                <img class="slide" src="icon/food1.png" alt="음식1">
+                <img class="slide" src="icon/음식2.jpeg" alt="음식2">
+                <img class="slide" src="icon/음식3.jpeg" alt="음식3">
+
+                <button id="prev"><img src="icon/arrow-left-circle.png" alt="왼쪽버튼"></button>
+                <button id="next"><img src="icon/arrow-right-circle.png" alt="오른쪽버튼"></button>
+
+                <ul class="dots">
+                    <li data-index="0" class="dot active"></li>
+                    <li data-index="1" class="dot"></li>
+                    <li data-index="2" class="dot"></li>
+                </ul>
+            </div>
+
+
+
+
+            <div class="info">
+                <div class="comment">
+                    <ul>
+                        <li><a href="#"><img src="icon/heart.png" alt="하트"></a></li>
+                        <li><a href="#"><img src="icon/comment.png" alt="댓글"></a></li>
+                        <li>
+                            <p class="count">17</p>
+                        </li>
+                        <li><a href="#"><img src="icon/tag.png" alt="태그"></a></li>
+                    </ul>
+                </div>
+
+                <div class="right-info">
+                    <div class="star">
+                        <ul>
+                            <li><a href="#"><img src="icon/Star.png" alt="별점"></a></li>
+                            <li><a href="#"><img src="icon/Star.png" alt="별점"></a></li>
+                            <li><a href="#"><img src="icon/Star.png" alt="별점"></a></li>
+                            <li><a href="#"><img src="icon/Star.png" alt="별점"></a></li>
+                            <li><a href="#"><img src="icon/Star.png" alt="별점"></a></li>
+                        </ul>
+                    </div>
+                    <div class="res-info">
+                        <p class="res-name">오오기리</p>
+                        <p class="res-type"> 일식</p>
+                    </div>
+                </div>
+            </div>
+            <div class="post-text">
+                <p class="short-text">처음에 왔을 때는 실패했는데 이번엔는 브레이크 타임 전에 오는데 성공했습니다. 우동 국물이 진국이더라고요, 주먹밥도 짭조름한 게 좋았습니다. 다만
+                    아쉬웠던 건 가라아게는 메뉴가 재정비 중이라 주문이 안 되는 상황이었습니다.나중에 가라아게가 되면, 그 때 또 와보려 합니다. 좋은 식당이에요 </p>
+                <button class="read-more-btn">더보기</button>
+            </div>
+        </div>
+
+        <div class="comment-box hidden">
+            <h3>댓글</h3>
+
+            <div class="comment-item">
+                <a href="#"><img src="icon/profile.png" alt="프로필" class="comment-profile"></a>
+                <div class="comment-content">
+                    <p class="comment-user">user_1</p>
+                    <p class="comment-text">와우 맛있겠다~</p>
+                    <button type="button" class="reply-btn">답글 달기</button>
+                    <div class="replies"></div>
+                </div>
+                <a href="#"><img src="icon/heart.png" alt="하트" class="comment-like"></a>
+            </div>
+
+            <div class="comment-item">
+                <a href="#"><img src="icon/profile.png" alt="프로필" class="comment-profile"></a>
+                <div class="comment-content">
+                    <p class="comment-user">user_2</p>
+                    <p class="comment-text">여기 진짜 분위기 좋아보여!</p>
+                    <button type="button" class="reply-btn">답글 달기</button>
+                    <div class="replies"></div>
+                </div>
+                <a href="#"><img src="icon/heart.png" alt="하트" class="comment-like"></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const readMoreBtn = document.querySelector('.read-more-btn');
+        const shortText = document.querySelector('.short-text');
+
+        readMoreBtn.addEventListener('click', () => {
+            if (shortText.style.webkitLineClamp === "none") {
+                shortText.style.webkitLineClamp = "2";
+                readMoreBtn.textContent = "더보기";
+            } else {
+                shortText.style.webkitLineClamp = "none";
+                readMoreBtn.textContent = "접기";
+            }
+        });
+
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.display = i === index ? 'block' : 'none';
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // 초기 슬라이드
+        showSlide(currentIndex);
+
+        // 다음 버튼
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        });
+
+        // 이전 버튼
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+        });
+
+        // 점 클릭 시 이동
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                currentIndex = parseInt(dot.dataset.index);
+                showSlide(currentIndex);
+            });
+        });
+
+        //하트 토글
+        const heartIcon = document.querySelector('.comment img');
+        let liked = false;
+
+        heartIcon.addEventListener('click', () => {
+            liked = !liked;
+            heartIcon.src = liked ? 'icon/heart-red.png' : 'icon/heart.png';
+        });
+
+        // 댓글 박스 토글
+        const commentBtn = document.querySelector('.comment img[alt="댓글"]');
+        const postBox = document.querySelector('.post');
+        const commentBox = document.querySelector('.comment-box');
+
+        commentBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            postBox.classList.toggle('expanded');
+            const isActive = commentBox.classList.contains('active');
+
+            if (isActive) {
+                // 댓글창 닫기
+                postBox.style.width = "500px";
+                commentBox.classList.remove('active');
+            } else {
+                // 댓글창 열기
+                postBox.style.width = "1000px";
+                commentBox.classList.add('active');
+            }
+        });
+
+        // 댓글 하트 토글
+        const commentLikes = document.querySelectorAll('.comment-like');
+
+        commentLikes.forEach(like => {
+            let liked = false;
+            like.addEventListener('click', (e) => {
+                e.preventDefault();
+                liked = !liked;
+                like.src = liked ? 'icon/heart-red.png' : 'icon/heart.png';
+            });
+        });
+
+        const replyBtns = document.querySelectorAll('.reply-btn');
+
+        replyBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const commentContent = e.target.closest('.comment-content');
+                const repliesDiv = commentContent.querySelector('.replies');
+
+                // 이미 답글 입력창이 있으면 제거
+                const existingForm = repliesDiv.querySelector('.reply-form');
+                if (existingForm) {
+                    existingForm.remove();
+                    return;
+                }
+
+                // 답글 입력 폼 생성
+                const formHTML = document.createElement('div');
+                formHTML.classList.add('reply-form'); // 클래스 직접 추가
+                formHTML.innerHTML = `
+                <a href="#"><img src="icon/profile.png" alt="프로필" class="comment-profile"></a>
+                <input type="text" class="reply-input" placeholder="댓글을 입력하세요">
+                <div class="reply-buttons">
+                    <button class="reply-submit">등록</button>
+                    <button class="reply-cancel">취소</button>
+                </div>
+            `;
+
+                repliesDiv.appendChild(formHTML);
+
+                const submitBtn = formHTML.querySelector('.reply-submit');
+                const cancelBtn = formHTML.querySelector('.reply-cancel');
+                const input = formHTML.querySelector('.reply-input');
+
+                // 등록 버튼 클릭
+                submitBtn.addEventListener('click', () => {
+                    if (input.value.trim() === "") return;
+
+                    const newReply = document.createElement('div');
+                    newReply.classList.add('comment-item');
+                    newReply.innerHTML = `
+                    <a href="#"><img src="icon/profile.png" alt="프로필" class="comment-profile"></a>
+                    <div class="comment-content">
+                        <p class="comment-user">user_1</p>
+                        <p class="comment-text">${input.value}</p>
+                    </div>
+                    <a href="#"><img src="icon/heart.png" alt="하트" class="comment-like" onclick="heartToggle()"></a>
+                `;
+                    repliesDiv.appendChild(newReply);
+                    formHTML.remove();
+                });
+
+                // 취소 버튼 클릭
+                cancelBtn.addEventListener('click', () => {
+                    formHTML.remove();
+                });
+            });
+        });
+
+        
+        function heartToggle() {
+            //여기에 이벤트 위임을 넣으시오??????????????????????????????
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+{
+  "DESCRIPTION": {
+    "NEW_ADDRESS": "신주소",
+    "SUBWAY_INFO": "교통정보",
+    "POST_SN": "고유번호",
+    "CMMN_HMPG_URL": "웹사이트",
+    "CMMN_TELNO": "전화번호",
+    "POST_URL": "콘텐츠URL",
+    "CMMN_HMPG_LANG": "홈페이지 언어",
+    "ADDRESS": "주소",
+    "FD_REPRSNT_MENU": "대표메뉴",
+    "CMMN_USE_TIME": "운영시간",
+    "POST_SJ": "상호명",
+    "LANG_CODE_ID": "언어"
+  },
+  "DATA": [
+    {
+      "new_address": "08010 서울 양천구 목동동로12길 20 (신정동, 하버드) ",
+      "post_sj": "채선당(목동점)",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 양천구 신정동 86-8",
+      "post_url": "https://korean.visitseoul.net/restaurants/채선당목동점/KOP007859?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP007859",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-2652-0737",
+      "fd_reprsnt_menu": "소고기 샤브, 월남쌈 샤브, 매운버섯 샤브, 스페션 샤브",
+      "cmmn_hmpg_url": "https://www.chaesundang.co.kr/",
+      "subway_info": "5호선 오목교역 7번출구 ",
+      "cmmn_use_time": "매일 11:00~22:00  ",
+      "post_sn": 7859
+    },
+    {
+      "new_address": "07928 서울특별시 양천구 남부순환로 531 (신월동) ",
+      "post_sj": "광양불고기",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 양천구 신월4동 438-5",
+      "post_url": "https://korean.visitseoul.net/restaurants/광양불고기/KOP002412?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP002412",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-2697-9999",
+      "fd_reprsnt_menu": "광양불고기, 꽃등심",
+      "cmmn_hmpg_url": null,
+      "subway_info": "지하철 5호선 신정역 5번 출구,  1.5km",
+      "cmmn_use_time": "11:00~21:30",
+      "post_sn": 2414
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<link rel="stylesheet" href="login.css">
+    
+</head>
+<body>
+
+    <div class="menu">
+        <div class="top">
+            <div class="home">
+            <a href="#">
+                <img src="img/Home.png" alt="">
+            </a>
+            </div>
+            <div class="search">
+                <a href="#">
+                    <img src="img/search.png" alt="">
+                </a>
+            </div>
+            <div class="follower">
+                <a href="#">
+                    <img src="img/Compass.png" alt="">
+                </a>
+            </div>
+            <div class="rank">
+                <a href="#">
+                    <img src="img/Award.png" alt="">
+                </a>
+            </div>
+        </div>
+        
+
+        <div class="bottom">
+            <div class="mypage">
+                <a href="mypage.html">
+                    <img src="img/User.png" alt="">
+                </a>
+            </div>
+            <div class="login-icon">
+                <a href="login.html">
+                    <img src="img/Log in.png" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-box">
+        <div class="login-img">
+            <img src="img/logo.png" alt="">
+            <div>로그인</div>
+        </div>
+        <br>
+        <div class="login">
+            <img src="img/User check.png" alt="">
+            <div class="email-form">
+                <input type="email" id="email" placeholder="이메일"> <br>
+                <div class="error-message" id="email-error"></div>
+            </div>
+            
+        </div>
+        <br>
+
+        <div class="pw">
+            <img src="img/Key.png" alt="">
+            <div class="pw-form">
+                <input type="password" id="password" placeholder="비밀번호">
+                <div class="error-message" id="password-error"></div>
+            </div>
+            
+        </div>
+        <br>
+
+        <button type="button" id="loginBtn"><a href="#"></a>로그인</button>
+        <a href="https://nid.naver.com/nidlogin.login?mode=form&url=https://www.naver.com/" class="naver"></a>
+        <a href="https://accounts.kakao.com/login/?continue=https%3A%2F%2Faccounts.kakao.com%2Fweblogin%2Faccount&talk_login=#login" class="kakao"></a>
+
+        <div class="login-link">
+            <div class="left">
+                <a href="#">아이디 찾기</a>
+                <a href="#">비밀번호 찾기</a>
+            </div>
+
+            <div class="right">
+                <a href="signup.html">회원가입</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let email = document.getElementById("email");
+        let password = document.getElementById("password");
+        let loginBtn = document.getElementById("loginBtn");
+
+        email.addEventListener("input", function() {
+            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let emailError = document.getElementById("email-error");
+
+            if (email.value === "") {
+                email.classList.remove('error');
+                emailError.style.display = "none";
+                return; 
+            }
+
+            if (!emailRegex.test(email.value)) {
+                email.classList.add('error');
+                emailError.textContent = "유효한 이메일 형식을 입력해주세요";
+                emailError.style.display = "block";
+            } else {
+                email.classList.remove('error');
+                emailError.style.display = "none";
+            }
+        });
+
+        password.addEventListener("input", function() {
+            let pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            let pwError = document.getElementById("password-error");
+
+            if (password.value === "") {
+                password.classList.remove('error');
+                pwError.style.display = "none";
+                return; 
+            }
+
+            if (!pwRegex.test(password.value)) {
+                password.classList.add('error');
+                pwError.textContent = "비밀번호는 8자 이상, 영문+숫자+특수문자를 포함해야 합니다.";
+                pwError.style.display = "block";
+            } else {
+                password.classList.remove('error');
+                pwError.style.display = "none";
+            }
+        });
+
+        loginBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (emailRegex.test(email.value) && pwRegex.test(password.value)) {
+                alert("로그인 성공!");
+            } else {
+                alert("로그인 정보를 다시 확인해주세요.");
+            }
+        });
+
+
+    
+    
+    </script>
+</body>
+</html>

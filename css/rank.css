@@ -79,7 +79,7 @@ nav img {
 .rank-header .pin-icon{ width:36px; height:36px; padding:30px; cursor:pointer; }
 
 .rank-content{
-  flex:1;
+  flex:1 1 auto;
   display:flex;            /* ⬅️ 가로 두 칸 */
   min-height:0;            /* 내부 스크롤 허용 */
 }
@@ -156,25 +156,14 @@ nav img {
 .count{ color: #555; font-size: 13px; }
 .addr{ font-size: 14px; color:#222; }
 
-/* 별점 막대 */
-.star-wrap{
-  position: relative;
-  display: inline-block;
-  font-size: 16px;
-  line-height: 1;
-}
-.star-base{
-  color: #ddd;
-}
-.star-fill{
-  position: absolute; left: 0; top: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  color: #ffcc00;
-}
-
 /* 주소 */
 .addr{ font-size: 14px; color:#2b2b2b; }
+
+.loc{
+  display: flex;              /* ✅ 컬럼 레이아웃을 위해 flex로 */
+  flex-direction: column;
+  min-width: 0;
+}
 .loc, .store{
   /* 레이아웃 */
   flex: 0 0 0;            /* 너비 0에서 시작 → 왼쪽 리스트를 안 가림 */
@@ -196,27 +185,62 @@ nav img {
 }
 
 .loc.active{
-  flex: 0 0 50%;          /* 화면의 오른쪽 절반 */
+  flex: 0 0 12%;
   transform: translateX(0);
   opacity: 1;
   padding: 20px;          /* 열릴 때 안쪽 여백 복원 */
 }
 
-.loc .loc-list {
-  margin-top: 8px;
-  list-style: none;
-  padding: 0;
-  max-height: 60vh;
-  overflow: auto;
+/* ▶ loc-grid를 '세로 한 줄 리스트'로 */
+.loc .loc-grid{
+  flex: 1 1 auto;             /* ✅ 남은 높이를 가져가고 */
+  min-height: 0;              /* ✅ 오버플로 허용을 위해 반드시 필요 */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;           /* ✅ 이제 스크롤이 뜹니다 */
+  overflow-x: hidden;
 }
 
-.loc .loc-item {
-  display: grid;
-  grid-template-columns: 36px 1fr 80px; /* 순위 | 지역명 | 합계 */
-  align-items: center;
-  gap: 8px;
-  padding: 8px 6px;
-  border-bottom: 1px solid #f0f0f0;
+/* 타일 카드 */
+.loc-card {
+  position: relative;
+  flex: 0 0 auto;         /* ✅ flex 기본 크기 자동 확장/축소 방지 */
+  width: 100%;
+  height: 200px;          /* 원하는 높이 적용 가능 */
+  border-radius: 12px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+}
+
+
+/* 가독성용 어두운 오버레이 */
+.loc-card::after{
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.35));
+}
+
+/* 좌상단 순위 배지 */
+.loc-badge{
+  position: absolute; top: 6px; left: 6px;
+  z-index: 2;
+  background: #FF7B00; /* 예시 색상 */
+  color: #fff; font-weight: 700; font-size: 14px;
+  width: 24px; height: 24px; border-radius: 4px;
+  display: grid; place-items: center;
+}
+
+/* 중앙 지역명 */
+.loc-title{
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  z-index: 2;
+  color: #fff; font-weight: 700;
+  font-size: 20px; letter-spacing: .5px;
+  text-shadow: 0 2px 6px rgba(0,0,0,.35);
 }
 
 .loc .loc-rank { font-weight: 700; text-align: center; }

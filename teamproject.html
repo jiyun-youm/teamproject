@@ -10,19 +10,22 @@
         --text-color-light: #555;
         --border-color: #eee;
         --bg-color-light: #f9f9f9;
+        --pink-dot-color: #FF85B2;
     }
-    
-    body { margin:0; font-family:'Noto Sans KR', sans-serif; }
+
+    body { margin:0; font-family:'Noto Sans KR', sans-serif; background-color: var(--bg-color-light); }
     .page { display: none; height: 100vh; overflow: hidden; }
     .active { display: flex; }
 
-    /* 사이드바 */
-    .sidebar { width:60px; background:#fff; border-right:1px solid var(--border-color); display:flex; flex-direction:column; align-items:center; padding:20px 0 10px; gap:25px; position:fixed; left:0; top:0; bottom:0; justify-content:space-between; box-sizing:border-box; }
+    /* Sidebar */
+    .sidebar { width:60px; background:#fff; border-right:1px solid var(--border-color); display:flex; flex-direction:column; align-items:center; padding:20px 0 10px; gap:25px; position:fixed; left:0; top:0; bottom:0; justify-content:space-between; box-sizing:border-box; z-index: 100;}
     .sidebar-top-icons, .sidebar-bottom-icons { display:flex; flex-direction:column; align-items:center; gap:25px; }
-    .sidebar-icon { width:26px; height:26px; cursor:pointer; }
+    .sidebar-icon { width:26px; height:26px; cursor:pointer; opacity: 0.5; }
+    .sidebar-icon.active { opacity: 1; }
 
-    /* 피드 */
-    .feed-wrapper { margin-left:60px; flex:1; display:flex; flex-direction:column; background:var(--bg-color-light); }
+
+    /* Feed Page */
+    .feed-wrapper { margin-left:60px; flex:1; display:flex; flex-direction:column; }
     .feed-header { display:flex; align-items:center; justify-content:space-between; padding:12px 20px; background:#fff; border-bottom:1px solid var(--border-color); position:sticky; top:0; z-index:10; }
     .feed-header-left { display:flex; flex:1; align-items:center; }
     .feed-header input { flex:1; margin-right:10px; padding:10px 15px; border:1px solid #ddd; border-radius:20px; font-size:14px; outline:none; }
@@ -35,55 +38,137 @@
     .thumbnail.square { grid-row:span 1; }
     .thumbnail.shorts { grid-row:span 2; }
 
-    /* 게시물 */
-    .post-container { flex:1; margin-left:60px; display:flex; justify-content:center; align-items:center; background:var(--bg-color-light); position:relative; }
-    .post-card { width:70%; max-width:800px; background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); overflow:hidden; max-height:90vh; display:flex; flex-direction:column; }
-    .post-header { display:flex; align-items:center; gap:8px; padding:12px 15px; flex-shrink:0; }
-    .post-header span { font-weight:bold; color:#333; }
-    .profile-dot { width:24px; height:24px; border-radius:50%; background:var(--main-theme-color); margin-right:4px; flex-shrink:0; }
-    .post-img { width: 90%; object-fit:contain; background-color:#eee; flex-grow:1; margin: 0 auto; }
-    .post-content { padding:15px; font-size:15px; color:#333; line-height:1.4; flex-shrink:0; }
-    .post-footer { display:flex; justify-content:space-between; align-items:center; padding:12px 15px; border-top:1px solid var(--border-color); flex-shrink:0; }
-    .icons { display:flex; gap:16px; font-size:20px; color:var(--text-color-light); }
-    .icons img { width:20px; height:20px; cursor:pointer; }
-    .post-footer span:last-child { font-weight:bold; color:var(--main-theme-color); font-size:16px; }
-    .back-btn { cursor:pointer; font-size:20px; color:#777; margin-right:15px; font-weight:bold; }
+    /* Post Page & Common Post Styles */
+    .post-container { flex:1; margin-left:60px; display:flex; justify-content:center; align-items:center; position:relative; }
+    .post-card-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+    .post-card {
+        background: #fff;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+        width: 400px;
+        transition: all 0.4s ease-in-out;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .post-header { display:flex; align-items:center; gap:8px; padding:10px 15px; flex-shrink:0; }
+    .post-header span { font-weight:bold; color:#333; font-size: 14px; }
+    .profile-dot { width:28px; height:28px; border-radius:50%; background:var(--pink-dot-color); flex-shrink:0; }
+    .profile-dot.small { width: 24px; height: 24px; }
+    .profile-dot.green { background-color: #A0D468; }
+    .profile-dot.blue { background-color: #4A89DC; }
+    
+    .image-slider-container { position: relative; overflow: hidden; width: 400px; height: 400px; flex-shrink: 0; transition: width 0.4s ease-in-out, height 0.4s ease-in-out; background-color: #f0f0f0;}
+    .image-slider { display: flex; transition: transform 0.3s ease-in-out; height: 100%; }
+    .image-slider img { width: 400px; height: 400px; object-fit: cover; flex-shrink: 0; }
+    .slider-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+    .slider-dots .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.6); border-radius: 50%; cursor: pointer; }
+    .slider-dots .dot.active { background: #fff; }
 
-    /* Split Post with Comments */
-    .split { display:flex; flex-direction:row; width:80%; max-width:1000px; position:relative; }
-    .split-left {
-        flex:1;
-        min-width:400px;
-        border-right:1px solid var(--border-color);
-        background:#fff;
-        display:flex;
-        flex-direction:column;
+    .post-body { padding: 10px 15px; }
+    .post-actions { display: flex; align-items: center; gap: 15px; }
+    .post-actions img { width: 22px; height: 22px; cursor: pointer; }
+    
+    .post-pins { display: flex; align-items: center; margin-top: 10px; }
+    .pin { display: flex; align-items: center; border-radius: 12px; font-size: 12px; }
+    .pin img { width: 30px; height: 30px; }
+    
+    .post-content { margin-top: 10px; font-size: 14px; color: #333; line-height: 1.5; }
+    .post-content strong { font-size: 14px; color: #000; cursor: pointer; }
+    .post-content p { margin: 4px 0 0; color: #555; }
+    
+    .back-btn { position: absolute; top: 180px; right: 10px; cursor:pointer; font-size:24px; color:#555; font-weight:bold; z-index: 50;}
+
+    /* Comments Panel (Sliding) */
+    .post-with-comments {
+        display: flex;
+        align-items: center;
     }
-    .split-right {
-        position:absolute;
-        top:0;
-        right:0;
-        width:350px;
-        height:100%;
-        background:#fff;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-out;
-        display:flex;
-        flex-direction:column;
-        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+    .post-with-comments .post-card {
+        width: 350px; /* Shrink post card */
     }
-    .split-right.active {
-        transform: translateX(0);
+    .post-with-comments .image-slider-container,
+    .post-with-comments .image-slider img {
+        width: 350px;
+        height: 350px;
     }
-    .comments { flex:1; overflow-y:auto; padding:15px; font-size:14px; color:#333; }
-    .comment { margin-bottom:12px; line-height:1.4; }
-    .comment strong { color:#333; }
+
+    .comments-panel {
+        width: 0;
+        height: 580px;
+        background: #fff;
+        border-left: 1px solid var(--border-color);
+        transition: width 0.4s ease-in-out;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    .comments-panel.active {
+        width: 300px;
+    }
+    .comments-panel-content {
+        width: 300px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .comments-header { padding: 15px; font-weight: bold; border-bottom: 1px solid var(--border-color); flex-shrink: 0;}
+    .comments { flex:1; overflow-y:auto; padding:15px; font-size:13px; color:#333; }
+    .comment-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+    .comment-main { flex: 1; }
+    .comment-content strong { margin-right: 6px; font-size: 13px; }
+    .comment-actions { margin-top: 5px; }
+    .reply-btn { background: none; border: none; color: #999; font-size: 12px; cursor: pointer; padding: 0; }
+    .comment-like-btn { background: none; border: none; cursor: pointer; padding: 0; }
+    .comment-like-btn img { width: 14px; height: 14px; opacity: 0.5; }
+
     .comment-input { display:flex; border-top:1px solid var(--border-color); padding:8px 10px; background:#fff; flex-shrink:0; }
-    .comment-input input { flex:1; border:none; padding:10px; outline:none; font-size:14px; }
-    .comment-input button { border:none; background:var(--main-theme-color); color:#fff; padding:10px 15px; cursor:pointer; border-radius:5px; font-weight:bold; margin-left:8px; transition:0.2s; }
-    .comment-input button:hover { background:#e0b03f; }
+    .comment-input input { flex:1; border:none; padding:10px; outline:none; font-size:13px; }
+    .comment-input button { border:none; background:var(--main-theme-color); color:#fff; padding: 8px; cursor:pointer; border-radius:5px; margin-left:8px; display: flex; align-items: center; justify-content: center;}
+    .comment-input button img { width: 16px; height: 16px; }
 
-    /* Shorts */
+    /* Restaurant Info Page */
+    .split-view {
+        display: flex;
+        width: 750px;
+        height: 600px;
+        background: #fff;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .split-left {
+        width: 400px;
+        flex-shrink: 0;
+    }
+    .split-right-info {
+        flex-grow: 1;
+        border-left: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+    }
+    .restaurant-info-header { padding: 20px; border-bottom: 1px solid var(--border-color); }
+    .restaurant-info-header h3 { margin: 0 0 5px; font-size: 18px; display: flex; align-items: center; justify-content: space-between; }
+    .restaurant-info-header h3 img { width: 16px; height: 16px; opacity: 0.6; cursor: pointer; }
+    .restaurant-info-header .rating { margin: 0; font-size: 13px; color: var(--text-color-light); display: flex; align-items: center; gap: 4px; }
+    .restaurant-info-header .rating img { width: 14px; height: 14px; }
+    .restaurant-info-header .details { margin: 5px 0 0; font-size: 13px; color: #666; }
+    .other-reviews { flex: 1; overflow-y: auto; padding: 20px; }
+    .review-item { display: flex; gap: 10px; margin-bottom: 20px; }
+    .review-thumbnail { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+    .review-content { font-size: 13px; color: #444; }
+    .review-rating { display: flex; align-items: center; }
+    .review-rating img { width: 14px; height: 14px; margin-right: 2px;}
+    .review-content p { margin: 5px 0 0; line-height: 1.5; }
+
+    /* Shorts Page */
     .shorts-container { flex:1; margin-left:60px; display:flex; justify-content:center; align-items:center; position:relative; background:#000; overflow:hidden; }
     .shorts-video-wrapper { position:relative; width:360px; height:640px; border-radius:12px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.5); transition: transform 0.3s ease-out; z-index:10; }
     .shorts-video-wrapper.shifted { transform:translateX(-175px); }
@@ -91,19 +176,17 @@
     .shorts-actions { position:absolute; right:20px; bottom:20px; display:flex; flex-direction:column; gap:25px; color:#fff; font-size:26px; text-align:center; text-shadow:0 1px 3px rgba(0,0,0,0.4); z-index:15; }
     .shorts-actions span { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; transition:transform 0.2s ease; }
     .shorts-actions span:hover { transform:scale(1.05); }
-    .shorts-actions small { font-size:12px; font-weight:bold; color:#fff; }
     .shorts-actions img { width:26px; height:26px; }
     .shorts-comments { position:absolute; top:0; right:0; width:350px; height:100%; background:#fff; border-left:1px solid var(--border-color); display:flex; flex-direction:column; transform:translateX(100%); transition:transform 0.3s ease-out; z-index:20; }
     .shorts-comments.active { transform:translateX(0); }
     .shorts-comments .header { display:flex; align-items:center; justify-content:space-between; padding:12px 15px; border-bottom:1px solid var(--border-color); flex-shrink:0; }
     .shorts-comments .header strong { font-size:16px; color:#333; }
-    .shorts-comments .header .back-btn { font-size:20px; margin-right:0; color:#777; }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- 사이드바 -->
+<!-- Sidebar -->
 <div class="sidebar">
     <div class="sidebar-top-icons">
         <img src="img/Home.png" class="sidebar-icon active" id="home-icon"> 
@@ -130,60 +213,135 @@
         <div class="feed">
             <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
             <div class="thumbnail square" onclick="openPost()"><img src="img/food.jpg"></div>
-            <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
-            <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
-            <div class="thumbnail square" onclick="openPost()"><img src="img/food.jpg"></div>
-            <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
-            <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
-            <div class="thumbnail square" onclick="openPost()"><img src="img/food.jpg"></div>
-            <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
-            <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
             <div class="thumbnail square" onclick="openPost()"><img src="img/food.jpg"></div>
             <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
         </div>
     </div>
 </div>
 
-<!-- Post Page -->
+<!-- Post Page (Handles default, comments, and info states) -->
 <div class="page" id="postPage">
     <div class="post-container">
-        <div class="post-card">
-            <div class="post-header">
-                <div class="back-btn" onclick="goBack()">✕</div>
-                <div class="profile-dot"></div><span>user_456</span>
+        <div class="back-btn" onclick="goBack()">✕</div>
+        <div id="postCardWrapper" class="post-card-wrapper">
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="profile-dot"></div><span>user_456</span>
+                </div>
+                <div class="image-slider-container">
+                    <div class="image-slider">
+                        <img src="img/food.jpg" alt="Post image 1">
+                        <img src="img/food.jpg" alt="Post image 2">
+                        <img src="img/food.jpg" alt="Post image 3">
+                    </div>
+                    <div class="slider-dots"></div>
+                </div>
+                <div class="post-body">
+                    <div class="post-actions">
+                        <img src="img/heart.png" alt="Like">
+                        <img src="img/chat.png" alt="Comment" onclick="toggleCommentsPanel()">
+                        <img src="img/save.png" alt="Save">
+                    </div>
+                    <div class="post-pins">
+                        <div class="pin"><img src="img/pin.png" alt="pin"><span></span></div>
+                        <div class="pin"><img src="img/pin.png" alt="pin"><span></span></div>
+                    </div>
+                    <div class="post-content">
+                        <strong onclick="openRestaurantInfo()">오오카메</strong>
+                        <p>두툼한 계란말이가 올라간 일본식 라멘 맛집! 정말 맛있었어요. 꼭 가보세요.</p>
+                    </div>
+                </div>
             </div>
-            <img src="img/food.jpg" class="post-img">
-            <div class="post-content">따끈한 국밥과 김 조합! 정말 맛있어요. 든든한 한끼 식사로 최고입니다.</div>
-            <div class="post-footer">
-                <div class="icons">
-                    <span><img src="img/heart.png"></span> 
-                    <span onclick="openComments()"><img src="img/save.png"></span> 
-                    <span><img src="img/chat.png"></span> 
+            <div id="commentsPanel" class="comments-panel">
+                <div class="comments-panel-content">
+                    <div class="comments-header">댓글</div>
+                    <div class="comments">
+                        <div class="comment-item">
+                            <div class="profile-dot small green"></div>
+                            <div class="comment-main">
+                                <div class="comment-content"><strong>user_789</strong> <span>여기 진짜 맛있어요!</span></div>
+                                <div class="comment-actions"><button class="reply-btn">답글 달기</button></div>
+                            </div>
+                            <button class="comment-like-btn"><img src="img/heart-outline.png"></button>
+                        </div>
+                        <div class="comment-item">
+                            <div class="profile-dot small blue"></div>
+                            <div class="comment-main">
+                                <div class="comment-content"><strong>user_123</strong> <span>비주얼 대박이네요...</span></div>
+                                <div class="comment-actions"><button class="reply-btn">답글 달기</button></div>
+                            </div>
+                            <button class="comment-like-btn"><img src="img/heart-outline.png"></button>
+                        </div>
+                    </div>
+                    <div class="comment-input">
+                        <input type="text" placeholder="댓글 달기..."><button><img src="img/up.png"></button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Post With Comments -->
-<div class="page" id="postWithComments">
-    <div class="post-container">
-        <div class="split">
+<!-- Restaurant Info Page -->
+<div class="page" id="restaurantInfoPage">
+     <div class="post-container">
+        <div class="back-btn" onclick="goBack()">✕</div>
+        <div class="split-view">
             <div class="split-left">
-                <div class="post-header">
-                    <div class="back-btn" onclick="goBack()">✕</div>
-                    <div class="profile-dot"></div><span>user_456</span>
+                 <div class="post-card">
+                    <div class="post-header">
+                        <div class="profile-dot"></div><span>user_456</span>
+                    </div>
+                    <div class="image-slider-container">
+                         <div class="image-slider">
+                            <img src="img/food.jpg" alt="Post image 1">
+                            <img src="img/food.jpg" alt="Post image 2">
+                        </div>
+                        <div class="slider-dots"></div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-actions">
+                           <img src="img/heart.png" alt="Like">
+                           <img src="img/chat.png" alt="Comment">
+                           <img src="img/save.png" alt="Save">
+                        </div>
+                        <div class="post-pins">
+                            <div class="pin"><img src="img/pin.png" alt="pin"><span>장소 1</span></div>
+                        </div>
+                         <div class="post-content">
+                            <strong>오오카메</strong>
+                            <p>두툼한 계란말이가 올라간 일본식 라멘 맛집!</p>
+                        </div>
+                    </div>
                 </div>
-                <img src="img/food.jpg" class="post-img">
-                <div class="post-content"></div>
             </div>
-            <div class="split-right">
-                <div class="comments">
-                    <div class="comment"><strong>user_1</strong> 맛있어보여요!</div>
-                    <div class="comment"><strong>user_2</strong> 저도 가보고 싶네요!</div>
+            <div class="split-right-info">
+                <div class="restaurant-info-header">
+                    <h3>울밀대 강남점 <img src="img/link.png"></h3>
+                    <p class="rating"><img src="img/pin.png" alt="pin"> 2345개</p>
+                    <p class="details">서울 서초구 서초대로73길 12</p>
                 </div>
-                <div class="comment-input">
-                    <input type="text" placeholder="댓글 달기..."><button><img src = "img/up.png"></button>
+                <div class="other-reviews">
+                    <div class="review-item">
+                        <img class="review-thumbnail" src="img/food.jpg">
+                        <div class="review-content">
+                            <div><strong>user_773</strong></div>
+                            <div class="review-rating">
+                                <img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png">
+                            </div>
+                            <p>국물이 정말 시원하고 맛있어요. 양도 많아서 든든합니다!</p>
+                        </div>
+                    </div>
+                     <div class="review-item">
+                        <img class="review-thumbnail" src="img/food.jpg">
+                        <div class="review-content">
+                             <div><strong>user_78</strong></div>
+                            <div class="review-rating">
+                                <img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png">
+                            </div>
+                            <p>만두랑 같이 먹으면 더 맛있어요!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,10 +351,10 @@
 <!-- Shorts Page -->
 <div class="page" id="shortsPage">
     <div class="shorts-container">
-        <div class="back-btn" style="position:absolute;top:20px;left:80px;color:#fff; z-index:25;" onclick="goBack()">✕</div>
+        <div class="back-btn" style="color:#fff;" onclick="goBack()">✕</div>
         <div class="shorts-video-wrapper" id="shortsVideoWrapper">
             <video class="shorts-video" controls muted loop autoplay>
-                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                <source src="" type="video/mp4">
             </video>
             <div class="shorts-actions">
                 <span><img src="img/Vector.png"></span>
@@ -207,11 +365,17 @@
         <div class="shorts-comments" id="shortsComments">
             <div class="header">
                 <strong>댓글</strong>
-                <span class="back-btn" onclick="toggleShortsComments()">✕</span>
+                <span class="back-btn" style="position:static;color:#777" onclick="toggleShortsComments()">✕</span>
             </div>
             <div class="comments">
-                <div class="comment"><strong>user_3</strong> 와 맛있겠다!</div>
-                <div class="comment"><strong>user_4</strong> 영상 편집 너무 잘하시네요!</div>
+                <div class="comment-item">
+                    <div class="profile-dot small green"></div>
+                    <div class="comment-main">
+                        <div class="comment-content"><strong>user_789</strong> <span>영상 너무 멋져요!</span></div>
+                        <div class="comment-actions"><button class="reply-btn">답글 달기</button></div>
+                    </div>
+                    <button class="comment-like-btn"><img src="img/heart-outline.png"></button>
+                </div>
             </div>
             <div class="comment-input">
                 <input type="text" placeholder="댓글 달기..."><button><img src="img/up.png"></button>
@@ -222,65 +386,167 @@
 
 <script>
     let historyStack = ["feedPage"];
-    let currentLocation = "설정 안됨";
+    let isCommentsPanelOpen = false;
 
+    // --- Page Navigation ---
     function showPage(pageId) {
         document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
         document.getElementById(pageId).classList.add("active");
-        if(historyStack[historyStack.length-1] !== pageId) historyStack.push(pageId);
+
+        if (historyStack[historyStack.length - 1] !== pageId) {
+            historyStack.push(pageId);
+        }
+        
+        // Initialize sliders for the new page
+        if (pageId === 'postPage' || pageId === 'restaurantInfoPage') {
+            document.querySelectorAll(`#${pageId} .image-slider-container`).forEach(initSlider);
+        }
+
+        // Reset states
         resetShortsComments();
+        closeCommentsPanel(false); // don't animate when switching pages
         updateSidebarActiveIcon();
     }
 
     function goBack() {
-        document.querySelector(".split-right")?.classList.remove("active");
-        if(historyStack.length>1){
+        if (isCommentsPanelOpen) {
+            closeCommentsPanel(true);
+            return;
+        }
+
+        if (historyStack.length > 1) {
             historyStack.pop();
-            const prev = historyStack[historyStack.length-1];
-            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-            document.getElementById(prev).classList.add("active");
-            resetShortsComments();
-            updateSidebarActiveIcon();
+            const prevPage = historyStack[historyStack.length - 1];
+            showPage(prevPage);
+        }
+    }
+    
+    function openPost() { showPage("postPage"); }
+    function openShorts() { showPage("shortsPage"); }
+    function openRestaurantInfo() { showPage("restaurantInfoPage"); }
+    
+    // --- Image Slider ---
+    function initSlider(sliderContainer) {
+        const slider = sliderContainer.querySelector('.image-slider');
+        const dotsContainer = sliderContainer.querySelector('.slider-dots');
+        const images = slider.querySelectorAll('img');
+        if (images.length <= 1) {
+            dotsContainer.style.display = 'none';
+            return;
+        };
+        dotsContainer.style.display = 'flex';
+
+
+        let currentIndex = 0;
+        dotsContainer.innerHTML = ''; // Clear old dots
+
+        images.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        function goToSlide(index) {
+            currentIndex = index;
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+            updateDots();
+        }
+
+        function updateDots() {
+            dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        }
+        
+        // Initialize first slide
+        goToSlide(0);
+    }
+    
+    // --- Comments Panel (for Post Page) ---
+    function toggleCommentsPanel() {
+        if (isCommentsPanelOpen) {
+            closeCommentsPanel(true);
+        } else {
+            openCommentsPanel();
         }
     }
 
-    function openPost(){ showPage("postPage"); }
-    function openComments(){ 
-        showPage("postWithComments"); 
-        document.querySelector(".split-right").classList.add("active");
+    function openCommentsPanel() {
+        const wrapper = document.getElementById('postCardWrapper');
+        const panel = document.getElementById('commentsPanel');
+        wrapper.classList.add('post-with-comments');
+        panel.classList.add('active');
+        isCommentsPanelOpen = true;
     }
-    function openShorts(){ 
-        showPage("shortsPage"); 
-        const video = document.querySelector("#shortsPage .shorts-video");
-        if(video) video.play().catch(()=>{});
+    
+    function closeCommentsPanel(animated = true) {
+        const wrapper = document.getElementById('postCardWrapper');
+        const panel = document.getElementById('commentsPanel');
+        
+        if (!animated) {
+            panel.style.transition = 'none';
+            wrapper.style.transition = 'none';
+            // The post-card and its children also need to have transitions temporarily disabled
+            wrapper.querySelector('.post-card').style.transition = 'none';
+            wrapper.querySelector('.image-slider-container').style.transition = 'none';
+        }
+        
+        wrapper.classList.remove('post-with-comments');
+        panel.classList.remove('active');
+        isCommentsPanelOpen = false;
+
+        if (!animated) {
+            setTimeout(() => {
+                panel.style.transition = '';
+                wrapper.style.transition = '';
+                wrapper.querySelector('.post-card').style.transition = '';
+                wrapper.querySelector('.image-slider-container').style.transition = '';
+            }, 0);
+        }
     }
 
-    function toggleShortsComments(){
+    // --- Shorts Comments ---
+    function toggleShortsComments() {
         document.getElementById("shortsComments").classList.toggle("active");
         document.getElementById("shortsVideoWrapper").classList.toggle("shifted");
     }
 
-    function resetShortsComments(){
+    function resetShortsComments() {
         document.getElementById("shortsComments").classList.remove("active");
         document.getElementById("shortsVideoWrapper").classList.remove("shifted");
     }
 
-    function setCurrentLocation(){
+    // --- Other Functions ---
+    function setCurrentLocation() {
         const input = document.querySelector(".location-search-input");
-        if(input.value.trim()!==""){
-            currentLocation = input.value.trim();
-            document.getElementById("currentLocationDisplay").textContent = "현재 위치: "+currentLocation;
-            input.value="";
-        } else alert("위치를 입력해주세요.");
+        if (input.value.trim() !== "") {
+            const newLocation = input.value.trim();
+            document.getElementById("currentLocationDisplay").textContent = "현재 위치: " + newLocation;
+            input.value = "";
+        } else {
+            console.warn("위치를 입력해주세요.");
+        }
     }
 
-    function updateSidebarActiveIcon(){
-        document.querySelectorAll(".sidebar-icon").forEach(i=>i.classList.remove("active"));
-        const page = historyStack[historyStack.length-1];
-        if(page==="feedPage"||page==="postPage"||page==="postWithComments") document.getElementById("home-icon").classList.add("active");
-        else if(page==="shortsPage") document.getElementById("compass-icon").classList.add("active");
+    function updateSidebarActiveIcon() {
+        document.querySelectorAll(".sidebar-icon").forEach(i => i.classList.remove("active"));
+        const currentPage = historyStack[historyStack.length - 1];
+        
+        if (["feedPage", "postPage", "restaurantInfoPage"].includes(currentPage)) {
+            document.getElementById("home-icon").classList.add("active");
+        } else if (currentPage === "shortsPage") {
+            document.getElementById("compass-icon").classList.add("active");
+        }
     }
-    document.addEventListener('DOMContentLoaded', updateSidebarActiveIcon);
+
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', () => {
+        showPage('feedPage');
+    });
 </script>
+
 </body>
 </html>
+

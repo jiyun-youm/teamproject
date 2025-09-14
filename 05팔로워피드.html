@@ -57,7 +57,7 @@
                         <li>
                             <p class="count">17</p>
                         </li>
-                        <li><a href="#"><img src="icon/tag.png" alt="태그"></a></li>
+                        <li><a href="#"><img class="tag" src="icon/tag.png" alt="태그"></a></li>
                     </ul>
                 </div>
 
@@ -252,6 +252,15 @@
                     <a href="#"><img src="icon/heart.png" alt="하트" class="comment-like" onclick="heartToggle()"></a>
                 `;
                     repliesDiv.appendChild(newReply);
+                    repliesDiv.addEventListener("click", function(e){
+                        if(e.target.matches(".comment-like")){
+                            e.preventDefault();
+                            let img=e.target;
+                            img.src=img.src.endsWith("icon/heart.png")
+                            ? "icon/heart-red.png"
+                            : "icon/heart.png"
+                        }
+                    })
                     formHTML.remove();
                 });
 
@@ -262,10 +271,13 @@
             });
         });
 
-        
-        function heartToggle() {
-            //여기에 이벤트 위임을 넣으시오??????????????????????????????
-        }
+        //북마크 클릭
+        let tag = document.querySelector(".tag");
+
+        tag.addEventListener("click", function () {
+        tag.classList.toggle("fill");
+        });
+
 
     </script>
 

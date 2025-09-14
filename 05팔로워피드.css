@@ -177,6 +177,16 @@ ul li {
     align-items: center;
 }
 
+.comment .tag {
+    cursor: pointer;
+}
+
+
+.tag.fill {
+  content: url("icon/tag_filled.png"); /* fill 클래스가 붙으면 이미지 교체 */
+}
+
+
 /* 별점 */
 .star > ul {
     display: flex;

@@ -28,7 +28,7 @@
     <div class="rank">
       <div class="rank-header">
         <h1>지역별 BEST 맛집 리스트</h1>
-        <img src="../icon/loc.png" alt="pin" class="pin-icon">
+        <img src="../icon/loc.png" alt="pin" class="pin-icon" title="지역 목록 열기">
       </div>
       <div class="rank-content">
         <!-- 선택한 지역의 가게 리스트 -->
@@ -39,10 +39,8 @@
           <div class="loc-grid"></div>
         </div>
 
-        <!-- 리뷰 영역(현재 미사용, 확장 가능) -->
-        <div class="store">
-          <h2>리뷰</h2>
-        </div>
+        <!-- 가게 리뷰 패널 -->
+        <div class="store" id="storePanel"></div>
       </div>
     </div>
   </div>
@@ -50,7 +48,9 @@
   <!-- 데이터 로딩 및 렌더링 -->
   <script>
     // 전역 보관용
-    let districtRanking = []; // 모든 구 단위 합계 랭킹
+    let districtRanking = [];           // 구 단위 합계 랭킹
+    let currentRegion = "";             // 현재 선택된 지역
+    const storeEl = document.getElementById('storePanel');
 
     // 지역구 → 파일명 매핑
     const districtImage = {
@@ -86,7 +86,7 @@
         const ratings = (shop.reviews || []).map(r => Number(r.rating) || 0);
         const sum = ratings.reduce((a,b)=>a+b,0);
         const sumInt = parseInt(sum);
-        const enriched = { ...shop, sumInt, count: ratings.length };
+        const enriched = { ...shop, sumInt, count: ratings.length }; // ← 오타 수정됨 :contentReference[oaicite:2]{index=2}
 
         // 지역별 합계 집계
         const prev = districtMap.get(regionKey) ?? {
@@ -114,7 +114,7 @@
       // 전역 저장
       window.__shopsByRegion = shopsByRegion;
 
-      // (B) ✅ 초기 상태: 강남구를 바로 렌더
+      // (B) ✅ 초기 상태: 강남구 렌더
       renderRankList("서울시 강남구");
     })
     .catch(err => {
@@ -122,7 +122,6 @@
       document.getElementById('rankList').innerHTML =
         `<li class="error">데이터를 불러오지 못했습니다.</li>`;
     });
-
 
     // 카드 템플릿(가게 카드)
     function cardHTML(rank, s) {
@@ -145,7 +144,7 @@
       }
 
       return `
-        <li class="card" style="background:${bgColor}">
+        <li class="card" data-name="${s.name}" style="background:${bgColor}">
           <div class="rank-badge">${rank}</div>
           <div class="thumb"><img src="${thumbPhoto}" alt="${s.name}"></div>
           <div class="info">
@@ -163,9 +162,9 @@
 
     // rank-list 렌더 함수
     function renderRankList(regionKey) {
+      currentRegion = regionKey;
       const listEl = document.getElementById('rankList');
       const shops = (window.__shopsByRegion?.get(regionKey) || []).slice();
-
       shops.sort((a,b)=> b.sumInt - a.sumInt || b.count - a.count);
 
       listEl.innerHTML = shops.map((s, idx) => cardHTML(idx + 1, s)).join('');
@@ -173,15 +172,26 @@
         `${regionKey} BEST 맛집 리스트`;
     }
 
-    // 핀 클릭: loc-grid 렌더
+    // ===== 상호배제 제어 =====
+    function openLoc(){
+      document.querySelector('.store')?.classList.remove('active'); // 리뷰 닫기
+      document.querySelector('.loc')?.classList.add('active');      // 지역 열기
+    }
+    function openStore(){
+      document.querySelector('.loc')?.classList.remove('active');   // 지역 닫기
+      document.querySelector('.store')?.classList.add('active');    // 리뷰 열기
+    }
+    function closePanels(){
+      document.querySelector('.loc')?.classList.remove('active');
+      document.querySelector('.store')?.classList.remove('active');
+    }
+
+    // ===== 핀(지역 버튼) 클릭: 지역 패널 열기(리뷰는 닫기) =====
     const pin = document.querySelector(".pin-icon");
     pin.addEventListener("click", () => {
-      const loc = document.querySelector(".loc");
+      openLoc();
+
       const grid = document.querySelector(".loc .loc-grid");
-
-      loc.classList.toggle("active");
-      if (!loc.classList.contains("active")) return;
-
       grid.innerHTML = districtRanking.map((item, i) => {
         const regionLabel = item.region || "";
         const bg = imgPath(item.district);
@@ -195,13 +205,82 @@
       }).join('');
     });
 
-    // loc-card 클릭 시 rank-list 갱신
+    // ===== 지역 카드 클릭: 리스트 갱신 후 패널 닫기(= 리스트만 보이기) =====
     document.querySelector('.loc .loc-grid')?.addEventListener('click', (e) => {
       const card = e.target.closest('.loc-card');
       if (!card) return;
       const regionKey = card.dataset.region;
-      if (regionKey) renderRankList(regionKey);
+      if (!regionKey) return;
+
+      renderRankList(regionKey);
+      // 선택 강조
+      document.querySelectorAll('.loc-card.selected').forEach(el => el.classList.remove('selected'));
+      card.classList.add('selected');
+
+      closePanels(); // 지역/리뷰 모두 닫고 리스트만 보이게
+      document.getElementById('rankList')?.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    // ===== 가게 카드 클릭: 지역 닫고 리뷰 열기 =====
+    document.getElementById('rankList')?.addEventListener('click', (e) => {
+      const li = e.target.closest('li.card');
+      if (!li) return;
+
+      const shops = window.__shopsByRegion?.get(currentRegion) || [];
+      const shop = shops.find(s => s.name === li.dataset.name);
+      if (!shop) return;
+
+      renderStorePanel(shop);
+      openStore();
+    });
+
+    // ===== 리뷰 패널 렌더러 =====
+    function pinsFromNumber(val){
+      const n = Math.max(0, Math.floor(Number(val)||0));
+      return new Array(n).fill(0).map(() =>
+        `<img src="../icon/pin.png" alt="pin" class="pin-xs">`
+      ).join('');
+    }
+
+    function renderStorePanel(shop){
+      const addr = `${shop.location?.city ?? ''} ${shop.location?.district ?? ''} ${shop.location?.address ?? ''}`.trim();
+      const reviews = shop.reviews || [];
+      const avg = reviews.reduce((a,r)=>a+(+r.rating||0),0) / (reviews.length||1);
+
+      storeEl.innerHTML = `
+        <div class="store-card">
+          <div class="store-header">
+            <h2 class="store-title">${shop.name}</h2>
+            <button class="store-close" title="닫기" aria-label="닫기">×</button>
+          </div>
+          <div class="store-meta">
+            <div class="pins">${pinsFromNumber(avg)}</div>
+            <span class="review-count">리뷰(${reviews.length}건)</span>
+            <span>${addr}</span>
+          </div>
+          <div class="reviews">
+            ${
+              reviews.map(r => `
+                <div class="review-card">
+                  <div class="review-head">
+                    <span class="user-dot"></span>
+                    <span>${r.user || 'anonymous'}</span>
+                  </div>
+                  <div class="review-body">
+                    ${r.photo ? `<img class="review-photo" src="${r.photo}" alt="">` : `<div class="review-photo"></div>`}
+                    <div class="review-text">
+                      <div class="pins">${pinsFromNumber(r.rating)}</div>
+                      <p class="comment">${r.comment || ''}</p>
+                    </div>
+                  </div>
+                </div>
+              `).join('')
+            }
+          </div>
+        </div>
+      `;
+      storeEl.querySelector('.store-close')?.addEventListener('click', closePanels);
+    }
   </script>
 </body>
 </html>

@@ -26,14 +26,8 @@ nav {
     width: 60px;
 }
 
-nav a {
-    margin: 15px 0;
-}
-
-nav img {
-    width: 28px;
-    height: 28px;
-}
+nav a { margin: 15px 0; }
+nav img { width: 28px; height: 28px; }
 
 /* nav 내부 그룹 */
 .nav-top, .nav-bottom {
@@ -95,6 +89,7 @@ nav img {
   overflow-y:auto;         /* ⬅️ 리스트만 스크롤 */
   min-width:0;
 }
+
 /* 카드 디자인 */
 .card{
   position: relative;
@@ -107,6 +102,7 @@ nav img {
   border: 1px solid #d18d8d;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  cursor: pointer;
 }
 
 /* 랭크 숫자 */
@@ -117,14 +113,6 @@ nav img {
   margin-right: 12px;
 }
 
-/* 빨간 핀 */
-.pin-badge{
-  position: absolute;
-  left: 34px; top: 6px;
-  width: 22px; height: 22px;
-  transform: rotate(-18deg);
-}
-
 /* 별 대신 들어갈 작은 핀 */
 .rating-row .pin-small{
   width: 18px;
@@ -132,8 +120,7 @@ nav img {
   object-fit: contain;
 }
 
-
-/* 썸네일(임시 플레이스홀더) */
+/* 썸네일 */
 .thumb img{
   width: 110px;
   height: 90px;
@@ -154,16 +141,16 @@ nav img {
 .rating-row{ display: flex; align-items: center; gap: 6px; font-size: 14px; }
 .score{ font-weight: bold; color:#000; }
 .count{ color: #555; font-size: 13px; }
-.addr{ font-size: 14px; color:#222; }
-
-/* 주소 */
 .addr{ font-size: 14px; color:#2b2b2b; }
 
+/* ============= 패널 공통 (지역/리뷰) ============= */
 .loc{
-  display: flex;              /* ✅ 컬럼 레이아웃을 위해 flex로 */
+  display: flex;              /* 컬럼 레이아웃 */
   flex-direction: column;
   min-width: 0;
 }
+
+/* ▶ 기본은 화면 밖(닫힘) */
 .loc, .store{
   /* 레이아웃 */
   flex: 0 0 0;            /* 너비 0에서 시작 → 왼쪽 리스트를 안 가림 */
@@ -172,7 +159,7 @@ nav img {
   border-left: 1px solid #ddd;
   background: #eaf3ff;
 
-  /* 시각/모션 */
+  /* 모션 */
   transform: translateX(100%);  /* 화면 밖에 대기 */
   opacity: 0;
   padding: 0;                   /* 닫힐 때 패딩도 0으로 */
@@ -184,56 +171,59 @@ nav img {
   will-change: transform, flex-basis, opacity;
 }
 
+/* 지역 패널 열림 */
 .loc.active{
   flex: 0 0 12%;
   transform: translateX(0);
   opacity: 1;
-  padding: 20px;          /* 열릴 때 안쪽 여백 복원 */
+  padding: 20px;
+}
+
+/* 리뷰 패널 열림(조금 더 넓게) */
+.store.active{
+  flex: 0 0 28%;
+  transform: translateX(0);
+  opacity: 1;
+  padding: 20px;
+  background:#fff;
 }
 
 /* ▶ loc-grid를 '세로 한 줄 리스트'로 */
 .loc .loc-grid{
-  flex: 1 1 auto;             /* ✅ 남은 높이를 가져가고 */
-  min-height: 0;              /* ✅ 오버플로 허용을 위해 반드시 필요 */
+  flex: 1 1 auto;             /* 남은 높이를 가져가고 */
+  min-height: 0;              /* 오버플로 허용 */
   display: flex;
   flex-direction: column;
   gap: 12px;
-  overflow-y: auto;           /* ✅ 이제 스크롤이 뜹니다 */
+  overflow-y: auto;           /* 스크롤 */
   overflow-x: hidden;
 }
 
-/* 타일 카드 */
+/* 지역 타일 카드 */
 .loc-card {
   position: relative;
-  flex: 0 0 auto;         /* ✅ flex 기본 크기 자동 확장/축소 방지 */
+  flex: 0 0 auto;
   width: 100%;
-  height: 200px;          /* 원하는 높이 적용 가능 */
+  height: 200px;
   border-radius: 12px;
   overflow: hidden;
   background-size: cover;
   background-position: center;
   box-shadow: 0 4px 10px rgba(0,0,0,.12);
 }
-
-
-/* 가독성용 어두운 오버레이 */
 .loc-card::after{
   content: "";
   position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.35));
 }
-
-/* 좌상단 순위 배지 */
 .loc-badge{
   position: absolute; top: 6px; left: 6px;
   z-index: 2;
-  background: #FF7B00; /* 예시 색상 */
+  background: #FF7B00;
   color: #fff; font-weight: 700; font-size: 14px;
   width: 24px; height: 24px; border-radius: 4px;
   display: grid; place-items: center;
 }
-
-/* 중앙 지역명 */
 .loc-title{
   position: absolute; inset: 0;
   display: grid; place-items: center;
@@ -243,12 +233,22 @@ nav img {
   text-shadow: 0 2px 6px rgba(0,0,0,.35);
 }
 
-.loc .loc-rank { font-weight: 700; text-align: center; }
-.loc .loc-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.loc .loc-sum  { text-align: right; font-weight: 600; }
+/* ============= 리뷰 패널 내부 ============= */
+.store-card{ background:#fff; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,.06); padding:12px; }
+.store-header{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+.store-title{ font-size:20px; font-weight:900; margin:0; }
+.store-close{ width:28px; height:28px; border:1px solid #ddd; border-radius:6px; background:#fff; cursor:pointer; }
+.store-meta{ color:#666; font-size:12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+.pins{ display:flex; align-items:center; gap:2px; }
+.pin-xs{ width:16px; height:16px; object-fit:contain; }
 
-.store{
-    flex: 1;
-    padding: 20px;
-    display: none;
-}
+.reviews{ display:flex; flex-direction:column; gap:10px; }
+.review-card{ background:#fff; border:1px solid #eee; border-radius:10px; padding:10px; }
+.review-head{ display:flex; align-items:center; gap:8px; font-weight:700; margin-bottom:8px; }
+.user-dot{ width:10px; height:10px; border-radius:50%; background:#7ed957; display:inline-block; }
+.review-body{ display:flex; gap:12px; }
+.review-photo{ width:110px; height:92px; border-radius:8px; border:1px solid #eee; object-fit:cover; background:#f4f4f4; }
+.review-text{ flex:1; display:flex; flex-direction:column; gap:6px; }
+
+/* 선택된 지역 강조(옵션) */
+.loc-card.selected{ outline:2px solid #6b8cff; background:linear-gradient(135deg,#eef2ff,#e5e9ff); }

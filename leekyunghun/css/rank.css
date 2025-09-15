@@ -99,9 +99,9 @@ nav img { width: 28px; height: 28px; }
   gap: 14px;
   padding: 14px 18px;
   background: #fbc4c4;           /* 연핑크 */
-  border: 1px solid #d18d8d;
+  border: 2px solid #00000054;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.322);
   cursor: pointer;
 }
 
@@ -265,5 +265,13 @@ nav img { width: 28px; height: 28px; }
 .review-photo{ width:110px; height:92px; border-radius:8px; border:1px solid #eee; object-fit:cover; background:#f4f4f4; }
 .review-text{ flex:1; display:flex; flex-direction:column; gap:6px; }
 
-/* 선택된 지역 강조(옵션) */
-.loc-card.selected{ outline:2px solid #6b8cff; background:linear-gradient(135deg,#eef2ff,#e5e9ff); }
+.loc-card.selected{
+  outline: 2px solid #6b8cff;   /* 선택 표시만 */
+  /* background 절대 넣지 말 것! (cover/center가 리셋됨) */
+}
+
+.loc-card.selected::after{
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.35)),
+    linear-gradient(135deg, rgba(107,140,255,.20), rgba(107,140,255,.08));
+}

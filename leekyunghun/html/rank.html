@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>맛집 리스트</title>
   <link rel="stylesheet" href="../css/rank.css">
 </head>
 <body>
@@ -86,7 +86,7 @@
         const ratings = (shop.reviews || []).map(r => Number(r.rating) || 0);
         const sum = ratings.reduce((a,b)=>a+b,0);
         const sumInt = parseInt(sum);
-        const enriched = { ...shop, sumInt, count: ratings.length }; // ← 오타 수정됨 :contentReference[oaicite:2]{index=2}
+        const enriched = { ...shop, sumInt, count: ratings.length };
 
         // 지역별 합계 집계
         const prev = districtMap.get(regionKey) ?? {
@@ -137,10 +137,10 @@
       let bgColor;
       switch (rank) {
         case 1: bgColor = "#FF7B00"; break;
-        case 2: bgColor = "#FBA62C"; break;
-        case 3: bgColor = "#F9BC42"; break;
-        case 4: bgColor = "#F8C74D"; break;
-        default: bgColor = "#F7D157";
+        case 2: bgColor = "#ff7b00be"; break;
+        case 3: bgColor = "#ff7b0081"; break;
+        case 4: bgColor = "#ff7b003a"; break;
+        default: bgColor = "#FFFFFF";
       }
 
       return `
@@ -221,13 +221,18 @@
       if (!regionKey) return;
 
       renderRankList(regionKey);
+
       // 선택 강조
       document.querySelectorAll('.loc-card.selected').forEach(el => el.classList.remove('selected'));
       card.classList.add('selected');
 
-      closePanels(); // 지역/리뷰 모두 닫고 리스트만 보이게
+      // ✅ loc-grid는 유지, 리뷰만 닫기
+      openLoc();
+      document.querySelector('.pin-icon')?.classList.add('active'); // 아이콘 상태도 열림으로 동기화
+
       document.getElementById('rankList')?.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
 
     // ===== 가게 카드 클릭: 지역 닫고 리뷰 열기 =====
     document.getElementById('rankList')?.addEventListener('click', (e) => {
@@ -240,6 +245,8 @@
 
       renderStorePanel(shop);
       openStore();
+
+      document.querySelector('.pin-icon')?.classList.remove('active');
     });
 
     // ===== 리뷰 패널 렌더러 =====

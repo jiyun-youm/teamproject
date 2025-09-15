@@ -1,0 +1,325 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html { scrollbar-gutter: stable; }
+
+body {
+    display: flex;
+    flex-direction: row; /* nav와 main을 좌/우 배치 */
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* 왼쪽 네비게이션 - 교체본 */
+nav{
+  position: fixed;           /* 화면 왼쪽에 붙여 고정 */
+  inset: 0 auto 0 0;         /* top:0; left:0; bottom:0; */
+  width: 60px;
+  height: 100vh;
+  background-color:#ffffff;
+  border-right:1px solid #ccc;
+  z-index:1000;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between; /* 위/아래 그룹 분리 */
+  align-items:center;            /* 아이콘 가로 가운데 */
+  padding:20px 0;
+}
+
+nav a{
+  margin: 8px 0;
+  width: 100%;
+  height: 50px;
+  display: flex;                 /* ← flex 컨테이너로 전환 */
+  justify-content: center;       /* 가로 중앙 */
+  align-items: center;           /* 세로 중앙 */
+  text-align: center;            /* 텍스트가 들어와도 가운데 */
+  border-radius: 8px;
+  line-height: normal;           /* 기존 50px 제거 */
+}
+nav a:hover{background: #F8C74D;}
+nav a img{
+  width: 28px;
+  height: 28px;
+  display: block;                /* 인라인 공백/베이스라인 영향 제거 */
+}
+
+/* nav 내부 그룹 */
+.nav-top, .nav-bottom {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-bottom{
+  margin-bottom: 15px;
+}
+.main {
+    flex: 1;
+    display: flex; /* 좌/우 나누기 */
+    margin-left: 60px;   /* ← nav 폭만큼 밀기 */
+}
+
+.rank{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  border-right: 1px solid #ddd;
+  background:#fff;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* 상단바 */
+.rank-header{
+  width:100%;
+  height:70px;
+  border-bottom:1px solid #ddd;
+  position: sticky; top:0; z-index:10;
+  display:flex; justify-content:space-between; align-items:center;
+  background:#fff;
+}
+
+/* 제목 */
+.rank-header h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+  padding-left: 30px;
+}
+
+/* 핀 아이콘 */
+.rank-header .pin-icon{ width:36px; height:36px; padding:30px; cursor:pointer; transition: transform 0.2s ease, filter 0.2s ease;}
+
+.rank-content{
+  flex:1 1 auto;
+  display:flex;            /* ⬅️ 가로 두 칸 */
+  min-height:0;            /* 내부 스크롤 허용 */
+}
+
+/* 왼쪽: 리스트(스크롤) */
+.rank-list{
+  list-style:none;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin:0; padding:12px 0;
+  flex:1;                  /* 좌측이 남는 폭 전부 */
+  overflow-y:auto;         /* ⬅️ 리스트만 스크롤 */
+  min-width:0;
+}
+
+/* 카드 디자인 */
+.card{
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 5px 20px;
+  gap: 14px;
+  padding: 14px 18px;
+  background: #fbc4c4;           /* 연핑크 */
+  border: 2px solid #00000054;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.322);
+  cursor: pointer;
+}
+
+/* 랭크 숫자 */
+.rank-badge{
+  font-size: 28px;
+  font-weight: 700;
+  color: #000;
+  margin-right: 12px;
+}
+
+/* 별 대신 들어갈 작은 핀 */
+.rating-row .pin-small{
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* 썸네일 */
+.thumb img{
+  width: 110px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* 정보영역 */
+.info{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.name{ font-size: 18px; font-weight: bold; }
+
+.rating-row{ display: flex; align-items: center; gap: 6px; font-size: 14px; }
+.score{ font-weight: bold; color:#000; }
+.count{ color: #555; font-size: 13px; }
+.addr{ font-size: 14px; color:#2b2b2b; }
+
+/* ============= 패널 공통 (지역/리뷰) ============= */
+.loc{
+  display: flex;              /* 컬럼 레이아웃 */
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ▶ 기본은 화면 밖(닫힘) */
+.loc, .store{
+  /* 레이아웃 */
+  flex: 0 0 0;            /* 너비 0에서 시작 → 왼쪽 리스트를 안 가림 */
+  max-width: 50%;
+  overflow: hidden;
+  border-left: 1px solid #ddd;
+  background: #eaf3ff;
+
+  /* 모션 */
+  transform: translateX(100%);  /* 화면 밖에 대기 */
+  opacity: 0;
+  padding: 0;                   /* 닫힐 때 패딩도 0으로 */
+  transition:
+    flex-basis 0.4s ease,
+    transform 0.4s ease,
+    opacity 0.25s ease,
+    padding 0.25s ease;
+  will-change: transform, flex-basis, opacity;
+}
+
+/* 지역 패널 열림 */
+.loc.active{
+  flex: 0 0 12%;
+  transform: translateX(0);
+  opacity: 1;
+  padding: 20px;
+}
+
+.store{
+  display: flex;            /* 상단 헤더/메타 + 리뷰영역 세로 배치 */
+  flex-direction: column;
+  min-height: 0;            /* ← flex 오버플로우 방지 핵심 */
+}
+
+/* 리뷰 패널 열림(조금 더 넓게) */
+.store.active{
+  flex: 0 0 28%;
+  transform: translateX(0);
+  opacity: 1;
+  padding: 20px;
+  background:#fff;
+}
+
+/* ▶ loc-grid를 '세로 한 줄 리스트'로 */
+.loc .loc-grid{
+  flex: 1 1 auto;             /* 남은 높이를 가져가고 */
+  min-height: 0;              /* 오버플로 허용 */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;           /* 스크롤 */
+  overflow-x: hidden;
+}
+
+/* 지역 타일 카드 */
+.loc-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+}
+.loc-card::after{
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.35));
+}
+.loc-badge{
+  position: absolute; top: 6px; left: 6px;
+  z-index: 2;
+  background: #FF7B00;
+  color: #fff; font-weight: 700; font-size: 14px;
+  width: 24px; height: 24px; border-radius: 4px;
+  display: grid; place-items: center;
+}
+.loc-title{
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  z-index: 2;
+  color: #fff; font-weight: 700;
+  font-size: 20px; letter-spacing: .5px;
+  text-shadow: 0 2px 6px rgba(0,0,0,.35);
+}
+
+/* ============= 리뷰 패널 내부 ============= */
+.store-card{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.store-header{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+.store-title{ font-size:20px; font-weight:900; margin:0; }
+.store-close{ width:28px; height:28px; border:1px solid #ddd; border-radius:6px; background:#fff; cursor:pointer; }
+.store-meta{ color:#666; font-size:12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+.pins{ display:flex; align-items:center; gap:2px; }
+.pin-xs{ width:16px; height:16px; object-fit:contain; }
+
+.reviews{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;         /* ← 스크롤 부여 */
+  padding-right: 4px;       /* (선택) 스크롤바 겹침 여백 */
+}
+.review-card{ background:#fff; border:1px solid #74717152; border-radius:10px; padding:10px; margin: 18px 0; box-shadow: 3px 6px rgba(0, 0, 0, 0.199);}
+.review-head{ display:flex; align-items:center; gap:8px; font-weight:700; margin-bottom:8px; }
+.user-dot{ width:10px; height:10px; border-radius:50%; background:#7ed957; display:inline-block; }
+.review-body{ display:flex; gap:12px; }
+.review-photo{ width:110px; height:92px; border-radius:8px; border:1px solid #eee; object-fit:cover; background:#f4f4f4; }
+.review-text{ flex:1; display:flex; flex-direction:column; gap:6px; }
+
+.loc-card.selected{
+  outline: 2px solid #6b8cff;   /* 선택 표시만 */
+  /* background 절대 넣지 말 것! (cover/center가 리셋됨) */
+}
+
+.loc-card.selected::after{
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.35)),
+    linear-gradient(135deg, rgba(107,140,255,.20), rgba(107,140,255,.08));
+}
+
+
+.hide-scrollbar {
+  -ms-overflow-style: none;    /* IE/Edge(레거시) */
+  scrollbar-width: none;       /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.rank-list,
+.loc .loc-grid,
+.reviews {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.rank-list::-webkit-scrollbar,
+.loc .loc-grid::-webkit-scrollbar,
+.reviews::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}

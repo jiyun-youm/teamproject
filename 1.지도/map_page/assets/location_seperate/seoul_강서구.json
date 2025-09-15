@@ -1,0 +1,102 @@
+{
+  "DESCRIPTION": {
+    "NEW_ADDRESS": "신주소",
+    "SUBWAY_INFO": "교통정보",
+    "POST_SN": "고유번호",
+    "CMMN_HMPG_URL": "웹사이트",
+    "CMMN_TELNO": "전화번호",
+    "POST_URL": "콘텐츠URL",
+    "CMMN_HMPG_LANG": "홈페이지 언어",
+    "ADDRESS": "주소",
+    "FD_REPRSNT_MENU": "대표메뉴",
+    "CMMN_USE_TIME": "운영시간",
+    "POST_SJ": "상호명",
+    "LANG_CODE_ID": "언어"
+  },
+  "DATA": [
+    {
+      "new_address": "07506 서울 강서구 방화대로 94 (메이필드호텔) ",
+      "post_sj": "봉래헌(메이필드호텔) ",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강서구 외발산동 426 426",
+      "post_url": "https://korean.visitseoul.net/restaurants/봉래헌메이필드호텔--BongraeheonMayfield-Hotel/KOP003148?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP003148",
+      "lang_code_id": "ko",
+      "cmmn_telno": "0507-1420-9020",
+      "fd_reprsnt_menu": null,
+      "cmmn_hmpg_url": "http://www.mayfield.co.kr",
+      "subway_info": "지하철 5/ 9호선 김포공항역 국내선 방면 8번 출구 Gate 7번 정류장- 호텔 무료 셔틀버스 환승\r\n\r\n",
+      "cmmn_use_time": "11:30~14:30, 18:00~21:30",
+      "post_sn": 3152
+    },
+    {
+      "new_address": "07622 서울 강서구 공항대로 18-1 (공항동, 이스카이오피스텔) 지하 1층",
+      "post_sj": "공항칼국수",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강서구 공항동 49-2",
+      "post_url": "https://korean.visitseoul.net/restaurants/2023010/KOPtcqlcp?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOPtcqlcp",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-2664-9748",
+      "fd_reprsnt_menu": "버섯칼국수, 내장칼국수",
+      "cmmn_hmpg_url": null,
+      "subway_info": "지하철 5호선 송정역 4번 출구,  180m ",
+      "cmmn_use_time": "09:30~22:00 (라스트오더 21:20)",
+      "post_sn": 43441
+    },
+    {
+      "new_address": "07779 서울특별시 강서구 강서로5나길 65 (화곡동) ",
+      "post_sj": "한우한마리",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강서구 화곡1동 910-23",
+      "post_url": "https://korean.visitseoul.net/restaurants/한우한마리1/KOP007140?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP007140",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-2065-1616",
+      "fd_reprsnt_menu": "소고기구이",
+      "cmmn_hmpg_url": null,
+      "subway_info": "5호선 까치산 3번 출구\n\n",
+      "cmmn_use_time": "24시간 영업",
+      "post_sn": 7141
+    },
+    {
+      "new_address": "07606 서울 강서구 초원로 77 (방화동) ",
+      "post_sj": "[백년가게] 꾸이꾸이 돼지촌 쭈꾸미",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강서구 방화동 247-10",
+      "post_url": "https://korean.visitseoul.net/restaurants/백년가게-꾸이꾸이-돼지촌-쭈꾸미/KOP042264?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP042264",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-2662-3450",
+      "fd_reprsnt_menu": "부추쭈꾸미, 삼겹살",
+      "cmmn_hmpg_url": "https://www.instagram.com/gguigguijjuggumi",
+      "subway_info": "지하철  9호선 신방화역 1번 출구,  182m",
+      "cmmn_use_time": "월~토 11:30~23:00, 일 11:30~22:00",
+      "post_sn": 42264
+    },
+    {
+      "new_address": "07571 서울 강서구 화곡로64길 68 (등촌동) ",
+      "post_sj": "등촌 최월선칼국수",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강서구 등촌동 654-95",
+      "post_url": "https://korean.visitseoul.net/restaurants/2023011/KOPof5zcz?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOPof5zcz",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-3661-2744",
+      "fd_reprsnt_menu": "버섯매운탕",
+      "cmmn_hmpg_url": null,
+      "subway_info": "지하철 9호선 증미역 4번 출구,  580m",
+      "cmmn_use_time": "평일 11:30~15:00, 16:00~21:30 / 주말 11:30~16:00, 17:00~21:30",
+      "post_sn": 43443
+    },
+    {
+      "new_address": "07506 서울 강서구 방화대로 94 (외발산동, 메이필드호텔, 낙원가든) ",
+      "post_sj": "낙원(메이필드호텔)",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강서구 외발산동 426 426",
+      "post_url": "https://korean.visitseoul.net/restaurants/낙원메이필드호텔--NakwonMayfield-Hotel/KOP003077?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP003077",
+      "lang_code_id": "ko",
+      "cmmn_telno": "0507-1432-9011",
+      "fd_reprsnt_menu": "한우꽃등심 한우특선대갈비 한우특선양념대갈비",
+      "cmmn_hmpg_url": "http://www.mayfield.co.kr/kor/subPage.asp?subCode=RESTAURANTS&subStep=1",
+      "subway_info": "5호선 김포공항역 국내선 터미널 8번게이트 7번 승강장 셔틀버스 이용\r\n\r\n",
+      "cmmn_use_time": "11:30~14:30, 17:30~21:30",
+      "post_sn": 3081
+    }
+  ]
+}

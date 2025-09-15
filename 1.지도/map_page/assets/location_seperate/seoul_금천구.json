@@ -1,0 +1,46 @@
+{
+  "DESCRIPTION": {
+    "NEW_ADDRESS": "신주소",
+    "SUBWAY_INFO": "교통정보",
+    "POST_SN": "고유번호",
+    "CMMN_HMPG_URL": "웹사이트",
+    "CMMN_TELNO": "전화번호",
+    "POST_URL": "콘텐츠URL",
+    "CMMN_HMPG_LANG": "홈페이지 언어",
+    "ADDRESS": "주소",
+    "FD_REPRSNT_MENU": "대표메뉴",
+    "CMMN_USE_TIME": "운영시간",
+    "POST_SJ": "상호명",
+    "LANG_CODE_ID": "언어"
+  },
+  "DATA": [
+    {
+      "new_address": "08614 서울 금천구 시흥대로63길 20 (시흥동, 동흥관) ",
+      "post_sj": "[백년가게] 동흥관",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 금천구 시흥동 115-10",
+      "post_url": "https://korean.visitseoul.net/restaurants/백년가게-동흥관/KOP042265?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP042265",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-803-3759",
+      "fd_reprsnt_menu": "짜장면, 짬뽕, 탕수육, 각종 중식",
+      "cmmn_hmpg_url": null,
+      "subway_info": "지하철 1호선 금천구청역 1번 출구,  387m ",
+      "cmmn_use_time": "11:00 ~ 21:30",
+      "post_sn": 42265
+    },
+    {
+      "new_address": "08547 서울 금천구 남부순환로 1392 (독산동) ",
+      "post_sj": "[백년가게] 프랑세즈과자점",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 금천구 독산동 876-3",
+      "post_url": "https://korean.visitseoul.net/restaurants/백년가게-프랑세즈과자점/KOP042266?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP042266",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-854-1213",
+      "fd_reprsnt_menu": "육쪽마늘빵, 호두파이, 크림치즈모카빵, 양파빵",
+      "cmmn_hmpg_url": null,
+      "subway_info": "지하철 2호선 구로디지털단지역 6번 출구,  974m",
+      "cmmn_use_time": "매일 07:30 ~ 24:00",
+      "post_sn": 42266
+    }
+  ]
+}

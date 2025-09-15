@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>지도 페이지</title>
+
+  <!-- tailwindcss import -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body class="flex">
+
+  <!-- 좌측 네비(로컬 이미지 아이콘 사용) -->
+  <aside class="w-36 bg-[#FFFFFF] border-r flex flex-col justify-between py-4 shadow z-[3000]">
+  
+    <!-- 활성 상태는 aria-current="page" 로 표시-->
+    <!-- 상단 그룹 -->
+    <div class="flex flex-col items-center space-y-6 w-full">
+
+      <!-- 홈 화면(메인 지도) -->
+      <button class="side-btn w-36 h-24 flex items-center justify-center rounded-lg hover:bg-[#F8C74D]" aria-current="page" data-tab="map" title="지도">
+        <img src="./assets/icons/Home.png" alt="지도" class="side-icon w-12 h-12"/>
+      </button>
+      
+      <!-- 추천 피드 & 검색 -->
+      <button class="side-btn w-36 h-24 flex items-center justify-center rounded-lg hover:bg-[#F8C74D]" data-tab="search" title="검색">
+        <img src="./assets/icons/Search.png" alt="검색" class="side-icon w-12 h-12"/>
+      </button>
+    
+      <!-- 팔로우 피드 -->
+      <button class="side-btn w-36 h-24 flex items-center justify-center rounded-lg hover:bg-[#F8C74D]" data-tab="user" title="사용자">
+        <img src="./assets/icons/Compass.png" alt="사용자" class="side-icon w-12 h-12"/>
+      </button>
+    
+      <!-- 가게 순위 -->
+      <button class="side-btn w-36 h-24 flex items-center justify-center rounded-lg hover:bg-[#F8C74D]" data-tab="crown" title="왕관">
+        <img src="./assets/icons/Award.png" alt="추천" class="side-icon w-12 h-12"/>
+      </button>
+    </div>
+
+    <!-- 하단 그룹 -->
+    <div class="flex flex-col items-center space-y-6 w-full">
+      
+      <!-- 마이페이지 -->
+      <button class="side-btn w-36 h-24 flex items-center justify-center hover:bg-[#F8C74D]" data-tab="setting" title="설정">
+        <img src="./assets/icons/User.png" alt="설정" class="side-icon w-12 h-12"/>
+      </button>
+    
+      <!-- 로그인/로그아웃 -->
+      <button class="side-btn w-36 h-24 flex items-center justify-center hover:bg-[#F8C74D]" data-tab="logout" title="로그아웃">
+        <img src="./assets/icons/Logout.png" alt="로그아웃" class="side-icon w-12 h-12"/>
+      </button>
+    </div>
+  </aside>
+
+
+  <!-- 지도 영역 -->
+  <main class="flex-1 relative">
+    <div id="status">현재 위치 파악 중…</div>
+    <button id="loadMore">더보기 (20개)</button>    
+    <div id="map"></div>
+
+    <!-- 지도 우측 하단 버튼 그룹 -->
+    <div class="absolute bottom-4 right-4 z-[1000] flex items-center space-x-2 bg-none p-2 rounded-lg text-lg">
+    
+      <!-- 한식 -->
+      <button class="food-btn" aria-pressed="false">
+        <span class="icon-wrap">
+          <img src="./assets/map_icons/koreanfood_icon.png" alt="한식"/>
+        </span>
+        <span>한식</span>
+      </button>
+
+      <!-- 중식 -->
+      <button class="food-btn" aria-pressed="false">
+        <span class="icon-wrap">
+          <img src="./assets/map_icons/chinesefood_icon.png" alt="중식"/>
+        </span>
+        <span>중식</span>
+      </button>
+
+      <!-- 일식 -->
+      <button class="food-btn" aria-pressed="false">
+        <span class="icon-wrap">
+          <img src="./assets/map_icons/japanesefood_icon.png" alt="일식"/>
+        </span>
+        <span>일식</span>
+      </button>
+
+      <!-- 양식 -->
+      <button class="food-btn" aria-pressed="false">
+        <span class="icon-wrap">
+          <img src="./assets/map_icons/westernfood_icon.png" alt="양식"/>
+        </span>
+        <span>양식</span>
+      </button>
+
+      <!-- 분식 -->
+      <button class="food-btn" aria-pressed="false">
+        <span class="icon-wrap">
+          <img src="./assets/map_icons/schoolfood_icon.png" alt="분식"/>
+        </span>
+        <span>분식</span>
+      </button>
+
+
+      <!-- 확대/축소 -->
+      <div class="flex flex-col ml-2">
+        
+        <!-- 줌인 버튼 -->
+        <button id="zoomIn" class="w-12 h-12 flex items-center justify-center bg-white rounded hover:bg-[#F8C74D] mb-1">+</button>
+        
+        <!-- 줌 아웃 버튼 -->
+        <button id="zoomOut" class="w-12 h-12 flex items-center justify-center bg-white rounded hover:bg-[#F8C74D] mb-1">-</button>
+    
+        <!-- 현재 위치 -->
+        <button id="currentLocationBtn" class="w-12 h-12 flex items-center justify-center bg-white rounded hover:bg-[#F8C74D]">
+          <img src="./assets/icons/current_location.png" alt="현재 위치" class="w-5 h-5"/>
+        </button>
+      </div>
+    </div>
+
+
+  
+    <!-- 좌측 슬라이드 패널 -->
+    <aside id="shopPanel" 
+    class="fixed top-0 left-36 w-[33vw] h-full bg-white shadow-lg -translate-x-full transition-transform duration-300 z-[2000] overflow-y-auto">
+
+      <!-- 검색칸으로 변경해야 함 -->
+      <div class="p-4 flex justify-between items-center border-b bg-[#FBA62C]">
+        <h2 class="text-lg font-bold">강남구 역삼1동</h2>
+        
+        <!-- 추후에 검색 칸 추가 -->
+
+        <!-- 슬라이드 닫기 버튼 -->
+        <button id="panelClose" class="text-xl w-8 h-8 rounded hover:bg-[#845717]">×</button>
+      </div>
+  
+      <!-- JS에서 동적으로 내용을 채울 영역 -->
+      <div id="shopContent" class="p-4"></div>
+    </aside>
+  </main>
+
+  <!-- 리뷰 이미지 클릭 시 원본 크기로 사진 볼 수 있는 Lightbox Modal -->
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 z-[5000] hidden">
+  
+    <!-- 반투명 백드롭 -->
+    <div id="lbBackdrop" class="absolute inset-0 bg-black/70"></div>
+
+    <!-- 콘텐츠 래퍼 -->
+    <div class="relative w-full h-full grid place-items-center p-4">
+    
+      <!-- 닫기 버튼 -->
+      <button id="lbClose" class="absolute top-4 right-4 w-10 h-10 text-2xl
+      bg-white/90 hover:bg-white rounded-full grid place-items-center shadow">×
+      </button>
+
+      <!-- 원본 이미지 -->
+      <img id="lbImage" alt="원본 이미지"
+      class="w-[90vw] max-h-[85vh] h-auto object-contain rounded shadow-lg border bg-white"/>
+    
+      <!-- 캡션 -->
+      <div id="lbCaption" class="mt-2 text-white/90 text-sm"></div>
+    </div>
+  </div>
+  
+
+  <!-- 카카오 맵 API 및 라이브러리 추가 -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0698fb5cbfd3626afb61d071e360de06&libraries=services,clusterer"></script>
+  <script>
+    // 안전 바인딩: id가 없거나 pointerEvents가 막혀 있어도 케어
+    const panel = document.getElementById('shopPanel');
+    const btnClose = document.getElementById('panelClose');
+    const shopContent = document.getElementById('shopContent');
+
+    // 지도 생성
+    //const map = L.map('map').setView([37.4979, 127.0276], 15);
+    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+    var options = { //지도를 생성할 때 필요한 기본 옵션
+      center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울시청 근처
+      draggable : true,
+      level: 3 //지도의 레벨(확대, 축소 정도)
+    };
+    //window.map = new kakao.maps.Map(container, options); // 전역 노출(버튼 핸들러에서 접근)
+    const geocoder = new kakao.maps.services.Geocoder();
+    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+    // 인포윈도우 객체 생성
+    const infoWindow = new kakao.maps.InfoWindow({ removable: true });
+
+  
+// ========= 현재 위치 마커(지도 중심을 따라 이동) =========
+    const myIcon = new kakao.maps.MarkerImage(
+      './assets/pin_icons/pin5.png',
+      new kakao.maps.Size(32, 32),
+      { offset: new kakao.maps.Point(16, 32) }
+    );
+    // (아이콘 제거: 기본 마커 사용)
+    let currentMarker = new kakao.maps.Marker({
+      map,
+      position: map.getCenter(),
+      zIndex: 999
+    });
+
+
+// 지도 이동/줌 종료마다 현재 위치 마커를 지도 중심으로 이동
+    let districtDebounce = null;
+    let lastDistrict = null;
+
+    kakao.maps.event.addListener(map, 'idle', () => {
+      const c = map.getCenter();
+      currentMarker.setPosition(c);
+
+      // (선택) 구 자동 갱신: 디바운스
+      clearTimeout(districtDebounce);
+      districtDebounce = setTimeout(resolveDistrictAndReloadByCenter, 400);
+    });
+
+// ========= 주소 정제/추출 =========
+    function cleanNewAddress(addr) {
+      if (!addr) return '';
+      // "서울" 앞의 우편번호/공백 제거
+      return addr.replace(/^\d*\s*서울/, '서울').trim();
+    }
+    function cleanOldAddress(addr) {
+      if (!addr) return '';
+      // "525-13 525-13" 같은 번지 중복 제거
+      return addr.replace(/(\d+-?\d*)\s+\1/, '$1').trim();
+    }
+    function extractDistrict(addr) {
+      if (!addr) return '';
+      const m = addr.match(/서울\s+\S+구/);
+      return m ? m[0] : '';
+    }
+
+    // ========= 커스텀 마커 생성 =========
+    const shopIcon = new kakao.maps.MarkerImage(
+      './assets/pin_icons/pin5.png',
+      new kakao.maps.Size(32, 32),
+      { offset: new kakao.maps.Point(16, 32) }
+    );
+    function placeMarker(pos, shop) {
+    const marker = new kakao.maps.Marker({
+        map,
+        position: pos,
+        title: shop.post_sj,
+        image: shopIcon
+    });
+    markers.push(marker);
+
+    kakao.maps.event.addListener(marker, 'click', () => {
+            // ✅ 인포윈도우: 가게명만 표시
+    const content = `
+      <div style="padding:6px 10px;font-size:13px;white-space:nowrap;">
+        ${shop.post_sj || '이름 없음'}
+      </div>`;
+    infoWindow.setContent(content);
+    infoWindow.open(map, marker);
+        // 패널 열기
+        panel.classList.remove('-translate-x-full');
+        panel.classList.add('translate-x-0');
+
+        // JSON 데이터 기반 내용 채우기
+        shopContent.innerHTML = `
+        <!-- 대표 이미지 -->
+        <div class="w-full h-96 rounded-lg bg-gray-200 bg-center bg-center bg-contain bg-no-repeat" 
+            style="background-image: url('./assets/info_assets/main_pic.png');">
+        </div>
+
+        <!-- 가게명 / 카테고리 + 별점 -->
+        <div class="flex justify-between items-center mt-4">
+            <div>
+            <h3 class="text-xl font-semibold">${shop.post_sj || '이름 없음'}</h3>
+            <p class="text-gray-500 text-sm">일식</p>
+            </div>
+            <div class="flex items-center space-x-1 text-yellow-500">📌📌📌📌📌</div>
+        </div>
+
+        <!-- 연락처 -->
+        <p class="flex items-center gap-2">
+            <img src="./assets/info_assets/tel_icon.png" alt="전화" class="w-5 h-5"/>
+            ${shop.cmmn_telno || 'null'}
+        </p>
+
+        <!-- 좋아요 / 리뷰 안내 -->
+        <div class="text-sm text-gray-600 space-y-1 border-t pt-2 mt-2">
+            <p>♥ 내 팔로워 2명이 좋아요를 눌렀습니다.</p>
+            <p>● xxx님이 리뷰를 작성한 식당입니다.</p>
+        </div>
+
+        <!-- 리뷰 섹션 -->
+        <div class="border-t pt-4 mt-2">
+            <div class="flex items-center justify-between mb-2">
+            <h4 class="font-semibold">리뷰 112</h4>
+            <button class="text-blue-500 text-sm">더보기</button>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-2">
+            <div class="h-40 rounded overflow-hidden"><img src="./assets/info_assets/review01.png" alt="리뷰1" class="w-full h-full object-cover"></div>
+            <div class="h-40 rounded overflow-hidden"><img src="./assets/info_assets/review02.png" alt="리뷰2" class="w-full h-full object-cover"></div>
+            <div class="h-40 rounded overflow-hidden"><img src="./assets/info_assets/review03.png" alt="리뷰3" class="w-full h-full object-cover"></div>
+            <div class="h-40 rounded overflow-hidden"><img src="./assets/info_assets/review04.png" alt="리뷰4" class="w-full h-full object-cover"></div>
+            <div class="h-40 rounded overflow-hidden"><img src="./assets/info_assets/review05.png" alt="리뷰5" class="w-full h-full object-cover"></div>
+            </div>
+        </div>
+        `;
+    });
+    }
+
+    // ========= 지오코딩 + 3단계 fallback =========
+    function searchAndMark(addr, shop, type, fallback = null) {
+    if (!addr) {
+        if (fallback) fallback();
+        return;
+    }
+    geocoder.addressSearch(addr, (result, status) => {
+        if (status === kakao.maps.services.Status.OK && result[0]) {
+        const pos = new kakao.maps.LatLng(result[0].y, result[0].x);
+        placeMarker(pos, shop);   // ✅ shop 객체 그대로 전달
+        } else {
+        if (fallback) fallback();
+        }
+    });
+    }
+
+    function addMarkerWithFallback(shop) {
+    const newAddr = cleanNewAddress(shop.new_address || '');
+    const oldAddr = cleanOldAddress(shop.address || '');
+    const district = extractDistrict(shop.address || '');
+    const combined = district && shop.post_sj ? `${district} ${shop.post_sj}` : '';
+
+    // 1) new_address → 2) address → 3) "서울 ○○구 + 상호명"
+    searchAndMark(newAddr, shop, 'new_address', () =>
+        searchAndMark(oldAddr, shop, 'address', () =>
+        searchAndMark(combined, shop, 'district+post_sj')
+        )
+    );
+    }
+
+    // ========= 페이지네이션 & 마커 관리 =========
+    let shops = [];
+    let page = 0;
+    const pageSize = 20;
+    const markers = [];
+
+    function clearMarkers() {
+      markers.forEach(m => m.setMap(null));
+      markers.length = 0;
+    }
+
+    function resetPaging() {
+      page = 0;
+      clearMarkers();
+      document.getElementById('loadMore').style.display = 'none';
+    }
+
+    function showPage(p) {
+      const start = p * pageSize;
+      const end = start + pageSize;
+      shops.slice(start, end).forEach((shop, i) => {
+        const name = shop.post_sj || `가게 ${start + i + 1}`;
+        addMarkerWithFallback(shop);
+      });
+    }
+
+    function showNextPage() {
+      if (page * pageSize >= shops.length) {
+        alert('더 이상 불러올 데이터가 없습니다.');
+        return;
+      }
+      showPage(page++);
+    }
+
+    document.getElementById('loadMore').addEventListener('click', showNextPage);
+
+    // ========= 구 단위 데이터 로딩 =========
+    const $status = document.getElementById('status');
+
+    function loadDistrictJsonAndRender(districtName) {
+      const filePath = `./assets/location_seperate/seoul_${districtName}.json`;
+      // console.log('파일 로드:', filePath);
+
+      resetPaging();
+      fetch(filePath)
+        .then(res => {
+          if (!res.ok) throw new Error(`JSON 로드 실패: ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          shops = data.DATA || [];
+          $status.textContent = `현재 지역: 서울 ${districtName} (총 ${shops.length}건)`;
+          showNextPage(); // 첫 20개 표시
+          if (shops.length > pageSize) {
+            document.getElementById('loadMore').style.display = 'inline-block';
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          $status.textContent = `해당 구 데이터 로드 실패(서울 ${districtName}). 파일/경로 확인 필요`;
+        });
+    }
+
+    // ========= 역지오코딩으로 현재 구 판별 =========
+    function resolveDistrictByLatLng(lat, lng, cb) {
+      geocoder.coord2RegionCode(lng, lat, (result, status) => {
+        if (status !== kakao.maps.services.Status.OK || !result?.length) return cb(null);
+        const info = result.find(r => r.region_type === 'B') || result[0];
+        const city = info.region_1depth_name;      // "서울특별시"
+        const district = info.region_2depth_name;  // "강남구" 등
+        if (!city?.startsWith('서울')) return cb(null);
+        cb(district);
+      });
+    }
+
+    // 지도 중심 기준으로 구 판별 후 필요 시 재로딩(디바운스로 호출)
+    function resolveDistrictAndReloadByCenter() {
+      const c = map.getCenter();
+      resolveDistrictByLatLng(c.getLat(), c.getLng(), (district) => {
+        if (!district) return;
+        if (district !== lastDistrict) {
+          lastDistrict = district;
+          $status.textContent = `현재 위치: 서울 ${district} (해당 구 데이터 로드 중…)`;
+          loadDistrictJsonAndRender(district);
+        }
+      });
+    }
+
+    // ========= 초기 현재 위치 처리 =========
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const center = new kakao.maps.LatLng(lat, lng);
+          map.setCenter(center);
+          map.setLevel(6);
+          currentMarker.setPosition(center); // ③ 초기 설정 시 현재 위치 마커 동기화
+          $status.textContent = '현재 위치 확인 완료. 구 식별 중…';
+
+          resolveDistrictByLatLng(lat, lng, (district) => {
+            if (!district) {
+              $status.textContent = '서울 외 지역입니다. 지도를 이동해 주세요.';
+              return;
+            }
+            lastDistrict = district;
+            loadDistrictJsonAndRender(district);
+          });
+        },
+        (err) => {
+          console.warn('Geolocation 실패:', err);
+          $status.textContent = '위치 권한 거부됨. 지도 중심 기준으로 구를 식별합니다.';
+          // 지도 중심으로 구 판별
+          resolveDistrictAndReloadByCenter();
+        },
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+      );
+    } else {
+      $status.textContent = '브라우저가 위치 기능을 지원하지 않습니다.';
+      resolveDistrictAndReloadByCenter();
+    }
+    // 줌인/줌아웃 (Kakao는 setLevel 사용)
+    document.getElementById("zoomIn").addEventListener("click", function () {
+      var level = map.getLevel();
+      if (level > 1) map.setLevel(level - 1);
+    });
+
+    document.getElementById("zoomOut").addEventListener("click", function () {
+      var level = map.getLevel();
+      map.setLevel(level + 1);
+    });
+
+    // 현재 위치 버튼 클릭 이벤트
+    //var currentMarker = null;
+
+    // 현재 위치로 지도 이동 + 마커 표시 (공용 함수)
+    function goToCurrentLocation() {
+      if (!navigator.geolocation) {
+        console.warn("이 브라우저에서는 위치 정보가 지원되지 않습니다.");
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        function (pos) {
+          var lat = pos.coords.latitude;
+          var lng = pos.coords.longitude;
+          var loc = new kakao.maps.LatLng(lat, lng);
+
+          currentMarker.setPosition(loc);
+          map.setCenter(loc);
+          map.setLevel(3);
+
+          if (currentMarker) currentMarker.setMap(null);
+          currentMarker = new kakao.maps.Marker({ position: loc });
+          currentMarker.setMap(map);
+        },
+        function (err) {
+          console.warn("현재 위치를 가져올 수 없습니다. (" + err.message + ")");
+          // 필요 시: 기본 중심 유지(지금처럼) 또는 강남 등 원하는 좌표로 fallback 가능
+          // map.setCenter(new kakao.maps.LatLng(37.4979, 127.0276));
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }
+    document.getElementById("currentLocationBtn").addEventListener("click", goToCurrentLocation);
+
+    // DOM이 준비되면 바로 현재 위치로 이동
+    window.addEventListener('DOMContentLoaded', goToCurrentLocation);
+    // 또는 window.addEventListener('load', goToCurrentLocation);
+
+    // 음식 버튼: 다중 선택 + 다시 클릭 시 해제
+    const foodBtns = document.querySelectorAll('.food-btn');
+
+    foodBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isActive = btn.getAttribute('aria-pressed') === 'true';
+        btn.setAttribute('aria-pressed', String(!isActive));
+        // 선택 상태 변화에 맞춰 필요한 필터 로직이 있으면 여기서 호출
+        // e.g., applyFoodFilter(getSelectedFoods());
+      });
+    });
+
+    // 현재 선택된 항목 목록 얻기
+    function getSelectedFoods() {
+      return [...document.querySelectorAll('.food-btn[aria-pressed="true"]')]
+        .map(b => b.dataset.key || b.textContent.trim());
+    }
+    // 좌측 사이드 탭 활성화 토글 유틸 (필요한 페이지에서 호출)
+    function setActiveTab(tabName) {
+      document.querySelectorAll('.side-btn').forEach(btn => {
+        if (btn.dataset.tab === tabName) {
+          btn.setAttribute('aria-current', 'page');
+        } else {
+          btn.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    // 이 페이지는 map 페이지이므로 보장
+    setActiveTab('map');
+
+
+  // 버튼으로 좌측 슬라이드 닫기  
+  btnClose?.addEventListener('click', () => {
+    panel.classList.remove('translate-x-0');
+    panel.classList.add('-translate-x-full');
+  });
+
+  // ESC로 좌측 슬라이드 닫기
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      panel.classList.remove('translate-x-0');
+      panel.classList.add('-translate-x-full');
+    }
+  });
+
+  // 지도 클릭 시 좌측 슬라이드 닫기
+    kakao.maps.event.addListener(map, 'click', () => {
+    panel.classList.remove('translate-x-0');
+    panel.classList.add('-translate-x-full');
+      // ✅ 인포윈도우 닫기
+  infoWindow.close();
+    });
+
+  // ===== Lightbox =====
+  const lightbox   = document.getElementById('lightbox');
+  const lbImg      = document.getElementById('lbImage');
+  const lbCaption  = document.getElementById('lbCaption');
+  const lbClose    = document.getElementById('lbClose');
+  const lbBackdrop = document.getElementById('lbBackdrop');
+
+  function openLightbox(src, caption='') {
+    lbImg.src = src;
+    lbCaption.textContent = caption;
+    lightbox.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // 스크롤 잠금
+  }
+
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lbImg.src = '';
+    lbCaption.textContent = '';
+    document.body.style.overflow = ''; // 스크롤 복구
+  }
+
+  // 닫기 동작
+  lbClose.addEventListener('click', closeLightbox);
+  lbBackdrop.addEventListener('click', closeLightbox);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  // === 이벤트 위임: shopPanel 내 썸네일 클릭 시 원본 열기 ===
+  const panelEl = document.getElementById('shopPanel');
+  panelEl.addEventListener('click', (e) => {
+    const img = e.target.closest('#shopContent img');
+    if (!img) return;
+
+    // data-full 이 있으면 원본 경로로, 없으면 썸네일 경로 사용
+    const fullSrc = img.getAttribute('data-full') || img.src;
+
+    // 캡션은 alt 사용
+    openLightbox(fullSrc, img.alt || '');
+  });
+
+  </script>
+
+</body>
+</html>

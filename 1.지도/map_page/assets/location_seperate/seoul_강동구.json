@@ -1,0 +1,74 @@
+{
+  "DESCRIPTION": {
+    "NEW_ADDRESS": "신주소",
+    "SUBWAY_INFO": "교통정보",
+    "POST_SN": "고유번호",
+    "CMMN_HMPG_URL": "웹사이트",
+    "CMMN_TELNO": "전화번호",
+    "POST_URL": "콘텐츠URL",
+    "CMMN_HMPG_LANG": "홈페이지 언어",
+    "ADDRESS": "주소",
+    "FD_REPRSNT_MENU": "대표메뉴",
+    "CMMN_USE_TIME": "운영시간",
+    "POST_SJ": "상호명",
+    "LANG_CODE_ID": "언어"
+  },
+  "DATA": [
+    {
+      "new_address": "05295 서울 강동구 양재대로 1594 (명일동) ",
+      "post_sj": "남한강 매운탕",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강동구 명일동 345-1",
+      "post_url": "https://korean.visitseoul.net/restaurants/남한강-매운탕/KOP030237?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP030237",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-481-7779",
+      "fd_reprsnt_menu": null,
+      "cmmn_hmpg_url": null,
+      "subway_info": "지하철 5호선 굽은다리역 3번 출구,  216m",
+      "cmmn_use_time": "매일 11:00 ~ 21:30",
+      "post_sn": 30237
+    },
+    {
+      "new_address": "05399 서울 강동구 성내로 62 (성내동, 정인빌딩) ",
+      "post_sj": "양철북 강동구청점",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강동구 성내동 548-3",
+      "post_url": "https://korean.visitseoul.net/restaurants/양철북-강동구청점kr/KOP023338?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP023338",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-478-1192",
+      "fd_reprsnt_menu": "특모듬한판, 한우대창, 특양구이",
+      "cmmn_hmpg_url": null,
+      "subway_info": "8호선 강동구청역 2번 출구 500m이내",
+      "cmmn_use_time": "월~토 11:30 - 22:30",
+      "post_sn": 23338
+    },
+    {
+      "new_address": "05264 서울 강동구 상암로11길 4 (암사동)  1층",
+      "post_sj": "[백년가게] 초롱이고모부대찌개",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강동구 암사동 496-17",
+      "post_url": "https://korean.visitseoul.net/restaurants/백년가게-초롱이고모부대찌개/KOP042251?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP042251",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-442-3546",
+      "fd_reprsnt_menu": "부대전골, 부대찌개, 햄찜",
+      "cmmn_hmpg_url": null,
+      "subway_info": "지하철 8호선 암사역 1번 출구,  142m\r\n",
+      "cmmn_use_time": "11:00~15:00, 16:00~21:00",
+      "post_sn": 42251
+    },
+    {
+      "new_address": "05376 서울특별시 강동구 풍성로57길 13 (성내동) ",
+      "post_sj": "고모네원조콩탕황태탕",
+      "cmmn_hmpg_lang": null,
+      "address": "서울 강동구 성내동 413-13",
+      "post_url": "https://korean.visitseoul.net/restaurants/고모네원조콩탕북어탕1/KOP007059?utm_source=seoulopendata&utm_medium=restaurants&utm_content=KOP007059",
+      "lang_code_id": "ko",
+      "cmmn_telno": "02-485-4675",
+      "fd_reprsnt_menu": "콩국물, 콩탕, 청국장, 포두부쌈",
+      "cmmn_hmpg_url": null,
+      "subway_info": "지하철 5호선 둔촌동역 4번 출구,  200m",
+      "cmmn_use_time": "화요일~토요일 11:00~14:30, 17:00~20:30\r\n",
+      "post_sn": 7059
+    }
+  ]
+}

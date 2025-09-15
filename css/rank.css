@@ -70,7 +70,13 @@ nav img { width: 28px; height: 28px; }
 }
 
 /* 핀 아이콘 */
-.rank-header .pin-icon{ width:36px; height:36px; padding:30px; cursor:pointer; }
+.rank-header .pin-icon{ width:36px; height:36px; padding:30px; cursor:pointer; transition: transform 0.2s ease, filter 0.2s ease;}
+
+/* active 상태 */
+.rank-header .pin-icon.active {
+  transform: rotate(20deg);
+  filter: drop-shadow(0 0 6px #ff7b00);
+}
 
 .rank-content{
   flex:1 1 auto;

@@ -189,20 +189,28 @@
     // ===== 핀(지역 버튼) 클릭: 지역 패널 열기(리뷰는 닫기) =====
     const pin = document.querySelector(".pin-icon");
     pin.addEventListener("click", () => {
-      openLoc();
+      // 아이콘에도 active 토글
+      pin.classList.toggle("active");
 
-      const grid = document.querySelector(".loc .loc-grid");
-      grid.innerHTML = districtRanking.map((item, i) => {
-        const regionLabel = item.region || "";
-        const bg = imgPath(item.district);
-        return `
-          <div class="loc-card" data-region="${regionLabel}"
-               style="background-image:url('${bg}')">
-            <div class="loc-badge">${i + 1}</div>
-            <div class="loc-title">${regionLabel}</div>
-          </div>
-        `;
-      }).join('');
+      // 패널 열기/닫기
+      if (pin.classList.contains("active")) {
+        openLoc();
+
+        const grid = document.querySelector(".loc .loc-grid");
+        grid.innerHTML = districtRanking.map((item, i) => {
+          const regionLabel = item.region || "";
+          const bg = imgPath(item.district);
+          return `
+            <div class="loc-card" data-region="${regionLabel}"
+                style="background-image:url('${bg}')">
+              <div class="loc-badge">${i + 1}</div>
+              <div class="loc-title">${regionLabel}</div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        closePanels(); // 아이콘 비활성 → 패널 닫기
+      }
     });
 
     // ===== 지역 카드 클릭: 리스트 갱신 후 패널 닫기(= 리스트만 보이기) =====

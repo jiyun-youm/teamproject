@@ -29,6 +29,7 @@ body {
     padding: 50px 0;
     box-sizing: border-box;
     align-items: center;
+     z-index: 1000; 
 }
 
 .top {

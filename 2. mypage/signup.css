@@ -2,71 +2,22 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   height: 100vh;
-  background: #f7f7f7;
-  position: relative; /* signup-box 위치 기준 */
+  position: relative;
 }
 
-.menu {
-    width: 100px;
-    height: 100%;
-    margin: 0;
-    border-right: 1px solid black;
-    background-color: #ffff;
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    display: flex;
-    flex-direction: column;        
-    justify-content: space-between; 
-    padding: 50px 0;
-    box-sizing: border-box;
-    align-items: center;
-}
-
-.top {
-    display: flex;
-    flex-direction: column;
-}
-
-.top div {
-    margin-bottom: 40px;
-}
-
-.bottom {
-    display: flex;
-    flex-direction: column;
-}
-
-.bottom div {
-    margin-bottom: 40px;
-}
-
-.bottom > div:last-child {
-    margin-bottom: 0;
-}
 
 /* 회원가입 박스 */
 .main {
-  margin-left: 100px; 
   display: flex;
   justify-content: center; 
   align-items: center;     
   height: 100%;            
 }
 
-.signup-box {
-  width: 500px;
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px gray;
-  text-align: center;
-}
-
 .signup-box img{
     width: 250px;
     height: 250px;
+    text-align: center; 
 }
 
 /* 입력 필드 */
@@ -106,6 +57,7 @@ body {
   cursor: pointer;
   font-weight: bold;
   transition: background 0.3s ease;
+  color: #ffff;
 }
 
 .signupBtn:hover {

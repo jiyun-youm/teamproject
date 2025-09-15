@@ -1,4 +1,4 @@
-*{
+* {
     padding: 0;
     margin: 0;
 }
@@ -13,7 +13,7 @@ body {
     align-items: center;     
     height: 100%;
     margin: 0;
-      background: #f7f7f7;
+    background: #f7f7f7;
 }
 
 /* 메뉴 */
@@ -22,7 +22,7 @@ body {
     height: 100%;
     margin: 0;
     border-right: 1px solid black;
-    background-color: #ffff;
+    background-color: #fff;
     position: fixed;
     top: 0;
     left: 0;
@@ -57,11 +57,33 @@ body {
     margin-bottom: 0;
 }
 
+/* 메뉴 버튼 */
+.menu button {
+    width: 70px;
+    height: 50px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.menu button img {
+    width: 40px;
+    height: 40px;
+}
+
+.menu button:hover {
+    background : #F8C74D;
+    border-radius: 8px;
+}
 
 /* 로그인 박스 */
 .login-box {
     width: 500px;
-    background-color: #FFFF;
+    background-color: #fff;
     padding: 40px;
     margin-left: 200px;
     display: flex;
@@ -86,9 +108,10 @@ body {
     width: 200px;
     height: 200px;
 }
+
 .login-box button {
     background-color: #F8C74D;
-    color: #FFFF;
+    color: #fff;
     font-size: 16px;
     font-weight: 500;
 }
@@ -98,15 +121,15 @@ body {
 }
 
 .login {
-    background-color: #FFFF;
+    background-color: #fff;
     display: flex;
     align-items: center;
 }
 
 .pw {
-    background-color: #FFFF;
+    background-color: #fff;
     display: flex;
-    align-items: center;
+    align-items: center;  
 }
 
 input {
@@ -119,7 +142,7 @@ input {
     box-sizing: border-box;
 }
 
-button {
+.login-box button {
     width: 300px;
     height: 45px;
     border: none;
@@ -128,7 +151,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.login-box button:hover {
     background-color: #FBA62C;
 }
 
@@ -168,7 +191,7 @@ button:hover {
     color: black;
 }
 
-.login-link a:hover{
+.login-link a:hover {
     color: gray;
 }
 

@@ -13,41 +13,41 @@
     <div class="menu">
         <div class="top">
             <div class="home">
-            <a href="#">
-                <img src="img/Home.png" alt="">
-            </a>
+                <button type="button" onclick="location.href='#'">
+                    <img src="img/Home.png" alt="">
+                </button>
             </div>
             <div class="search">
-                <a href="#">
+                <button type="button" onclick="location.href='#'">
                     <img src="img/search.png" alt="">
-                </a>
+                </button>
             </div>
             <div class="follower">
-                <a href="#">
+                <button type="button" onclick="location.href='#'">
                     <img src="img/Compass.png" alt="">
-                </a>
+                </button>
             </div>
             <div class="rank">
-                <a href="#">
+                <button type="button" onclick="location.href='#'">
                     <img src="img/Award.png" alt="">
-                </a>
+                </button>
             </div>
         </div>
-        
 
         <div class="bottom">
             <div class="mypage">
-                <a href="mypage.html">
+                <button type="button" onclick="location.href='mypage.html'">
                     <img src="img/User.png" alt="">
-                </a>
+                </button>
             </div>
             <div class="login-icon">
-                <a href="login.html">
+                <button type="button" onclick="location.href='login.html'">
                     <img src="img/Log in.png" alt="">
-                </a>
+                </button>
             </div>
         </div>
     </div>
+
 
     <div class="login-box">
         <div class="login-img">
@@ -86,7 +86,7 @@
             </div>
 
             <div class="right">
-                <a href="signup.html">회원가입</a>
+                <a href="signup.html" id="signupLink">회원가입</a>
             </div>
         </div>
     </div>
@@ -95,6 +95,7 @@
         let email = document.getElementById("email");
         let password = document.getElementById("password");
         let loginBtn = document.getElementById("loginBtn");
+        let singupLink = document.getElementById("singupLink");
 
         email.addEventListener("input", function() {
             let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -144,11 +145,21 @@
 
             if (emailRegex.test(email.value) && pwRegex.test(password.value)) {
                 alert("로그인 성공!");
+                location.href = "mypage.html";
             } else {
                 alert("로그인 정보를 다시 확인해주세요.");
             }
         });
 
+        signupLink.addEventListener("click", function(e) {
+            e.preventDefault(); 
+
+            window.open(
+                "signup.html",           
+                "signup",          
+                "width=500,height=700"
+            );
+        });
 
     
     

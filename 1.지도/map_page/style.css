@@ -3,6 +3,84 @@
     height: 100vh;
 }
 
+/* 메뉴 */
+.menu {
+    width: 100px;
+    height: 100%;
+    margin: 0;
+    border-right: 1px solid black;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3000;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 50px 0;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; /* 추가: 버튼 컨테이너를 중앙 정렬 */
+    width: 100%; /* 추가: 상위 div가 .menu의 너비를 채우도록 */
+}
+
+.top div {
+    margin-bottom: 40px; /* <--- 간격 조절 */
+    display: flex; /* 추가: 내부 버튼을 중앙 정렬하기 위해 flex 컨테이너로 만듬 */
+    justify-content: center; /* 추가: 내부 버튼 중앙 정렬 */
+}
+
+.bottom {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; /* 추가: 버튼 컨테이너를 중앙 정렬 */
+    width: 100%; /* 추가: 하위 div가 .menu의 너비를 채우도록 */
+}
+
+.bottom div {
+    margin-bottom: 20px; /* <--- 간격 조절 */
+    display: flex; /* 추가: 내부 버튼을 중앙 정렬하기 위해 flex 컨테이너로 만듬 */
+    justify-content: center; /* 추가: 내부 버튼 중앙 정렬 */
+}
+
+.bottom > div:last-child {
+    margin-bottom: 0;
+}
+
+/* 메뉴 버튼 */
+.menu button {
+    width: 70px; /* <--- 고정 너비 유지 */
+    height: 50px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: center; /* 중앙 정렬 유지 */
+    align-items: center; /* 중앙 정렬 유지 */
+    padding: 0;
+}
+
+.menu button img {
+    width: 40px;
+    height: 40px;
+}
+
+.menu button:hover {
+    background : #F8C74D;
+    border-radius: 8px;
+}
+
+/* 지도 영역이 사이드 바에 가려지지 않도록 왼쪽 여백 추가 */
+body main {
+    margin-left: 100px;
+}
+
 /* 아이콘 기본 효과(회색→호버 시 컬러) */
 .side-icon {
     filter: grayscale(100%);

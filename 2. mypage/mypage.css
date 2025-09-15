@@ -134,24 +134,22 @@ body {
 
 
 .post {
-    width: 1500px;                 
+    font-size: 0;   
+    width: 1500px;
     background: #fafafa;
     padding: 20px;
     border: 1px solid #d7d7d7;
     border-radius: 10px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); 
 }
 
-
-.content {            
-    padding: 20px;
-    border-radius: 8px;
+.content {
+    display: inline-block;
+    width: 25%;      
+    vertical-align: top;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 20px;
     text-align: center;
+    font-size: 16px; 
 }
 
 .content img {

@@ -111,8 +111,12 @@ body {
 
 input {
     width: 230px;
-    height: 30px;
+    padding: 10px;
     margin-left: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
 }
 
 button {

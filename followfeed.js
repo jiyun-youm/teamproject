@@ -43,22 +43,31 @@ function openRestaurantInfo() { showPage("restaurantInfoPage"); }
 function initSlider(sliderContainer) {
     const slider = sliderContainer.querySelector('.image-slider');
     const dotsContainer = sliderContainer.querySelector('.slider-dots');
+    const prevBtn = sliderContainer.querySelector('.prev-btn');
+    const nextBtn = sliderContainer.querySelector('.next-btn');
     const images = slider.querySelectorAll('img');
+
     if (images.length <= 1) {
-        dotsContainer.style.display = 'none';
+        if (dotsContainer) dotsContainer.style.display = 'none';
+        if (prevBtn) prevBtn.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'none';
         return;
     };
-    dotsContainer.style.display = 'flex';
+    if (dotsContainer) dotsContainer.style.display = 'flex';
+    if (prevBtn) prevBtn.style.display = 'block';
+    if (nextBtn) nextBtn.style.display = 'block';
 
     let currentIndex = 0;
-    dotsContainer.innerHTML = ''; // 기존 점 제거
+    if (dotsContainer) dotsContainer.innerHTML = ''; // 기존 점 제거
 
     images.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (i === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(i));
-        dotsContainer.appendChild(dot);
+        if (dotsContainer) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
     });
 
     function goToSlide(index) {
@@ -68,8 +77,24 @@ function initSlider(sliderContainer) {
     }
 
     function updateDots() {
-        dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentIndex);
+        if (dotsContainer) {
+            dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        }
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+            goToSlide(currentIndex);
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+            goToSlide(currentIndex);
         });
     }
     
@@ -77,19 +102,36 @@ function initSlider(sliderContainer) {
     goToSlide(0);
 }
 
+// 좋아요 및 저장 기능
+document.addEventListener('click', function(event) {
+    // 좋아요 버튼
+    if (event.target.closest('.heart-icon')) {
+        const heartIcon = event.target.closest('.heart-icon');
+        const isLiked = heartIcon.src.includes('heart-fill.png');
+        heartIcon.src = isLiked ? 'img/heart.png' : 'img/heart-fill.png';
+    }
+    // 저장 버튼
+    if (event.target.closest('.save-icon')) {
+        const saveIcon = event.target.closest('.save-icon');
+        const isSaved = saveIcon.src.includes('save-fill.png');
+        saveIcon.src = isSaved ? 'img/save.png' : 'img/save-fill.png';
+    }
+});
+
 // 게시물 댓글 패널
 function toggleCommentsPanel() {
+    const wrapper = document.getElementById('postCardWrapper');
     if (isCommentsPanelOpen) {
+        wrapper.classList.remove('post-with-comments');
         closeCommentsPanel(true);
     } else {
+        wrapper.classList.add('post-with-comments');
         openCommentsPanel();
     }
 }
 
 function openCommentsPanel() {
-    const wrapper = document.getElementById('postCardWrapper');
     const panel = document.getElementById('commentsPanel');
-    wrapper.classList.add('post-with-comments');
     panel.classList.add('active');
     isCommentsPanelOpen = true;
 }
@@ -101,8 +143,6 @@ function closeCommentsPanel(animated = true) {
     if (!animated) {
         panel.style.transition = 'none';
         wrapper.style.transition = 'none';
-        wrapper.querySelector('.post-card').style.transition = 'none';
-        wrapper.querySelector('.image-slider-container').style.transition = 'none';
     }
     
     wrapper.classList.remove('post-with-comments');
@@ -113,8 +153,6 @@ function closeCommentsPanel(animated = true) {
         setTimeout(() => {
             panel.style.transition = '';
             wrapper.style.transition = '';
-            wrapper.querySelector('.post-card').style.transition = '';
-            wrapper.querySelector('.image-slider-container').style.transition = '';
         }, 0);
     }
 }
@@ -123,6 +161,22 @@ function toggleReplies() {
     const nestedReplies = event.target.closest('.comment-main').querySelector('.nested-replies');
     if (nestedReplies) {
         nestedReplies.style.display = nestedReplies.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+// 게시물 내용 더보기 기능
+function toggleFullContent(moreLink) {
+    const contentText = moreLink.closest('.post-content').querySelector('.content-text');
+    const postCard = moreLink.closest('.post-card');
+    
+    if (contentText.classList.contains('collapsed')) {
+        contentText.classList.remove('collapsed');
+        moreLink.textContent = '줄이기';
+        postCard.style.height = 'auto'; // 내용에 맞춰 높이 자동 조절
+    } else {
+        contentText.classList.add('collapsed');
+        moreLink.textContent = '더보기';
+        postCard.style.height = 'auto'; // '줄이기'를 눌렀을 때도 높이를 자동으로 조절
     }
 }
 
@@ -155,7 +209,7 @@ function updateSidebarActiveIcon() {
     
     if (["feedPage", "postPage", "restaurantInfoPage"].includes(currentPage)) {
         document.getElementById("home-icon").classList.add("active");
-    } 
+    }
     else if (currentPage === "shortsPage") {
         document.getElementById("compass-icon").classList.add("active");
     }

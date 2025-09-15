@@ -8,20 +8,44 @@
 </head>
 <body>
   <!-- 왼쪽 네비게이션 -->
-  <nav>
-    <!-- 위쪽 아이콘 -->
-    <div class="nav-top">
-      <a href="../../1.지도/map_page/map.html"><img src="../icon/home.png" alt="home"></a>
-      <a href="../../3.추천피드/followfeed.html"><img src="../icon/search.png" alt="search"></a>
-      <a href="../../5.팔로워피드/05팔로워피드.html"><img src="../icon/compass.png" alt="compass"></a>
-      <a href="rank.html"><img src="../icon/award.png" alt="award"></a>
+  <div class="menu">
+      <div class="top">
+          <div class="home">
+              <button type="button" onclick="location.href='../../1.지도/map_page/map.html'">
+                  <img src="../icon/Home.png" alt="">
+              </button>
+          </div>
+          <div class="search">
+              <button type="button" onclick="location.href='../../3.추천피드/followfeed.html'">
+                  <img src="../icon/search.png" alt="">
+              </button>
+          </div>
+          <div class="follower">
+              <button type="button" onclick="location.href='../../5.팔로워피드/05팔로워피드.html'">
+                  <img src="../icon/Compass.png" alt="">
+              </button>
+          </div>
+          <div class="rank">
+              <button type="button" onclick="location.href='rank.html'" style="background-color: #F8C74D; border-radius: 8px;">
+                  <img src="../icon/Award.png" alt="">
+              </button>
+          </div>
+      </div>
+
+      <div class="bottom">
+          <div class="mypage">
+              <button type="button" onclick="location.href='../../2.마이페이지/mypage.html'">
+                  <img src="../icon/User.png" alt="">
+              </button>
+          </div>
+          <div class="login-icon">
+              <button type="button" onclick="location.href='../../2.마이페이지/login.html'">
+                  <img src="../icon/Log in.png" alt="">
+              </button>
+          </div>
+      </div>
     </div>
-    <!-- 아래쪽 아이콘 -->
-    <div class="nav-bottom">
-      <a href="../../2.마이페이지/mypage.html"><img src="../icon/user.png" alt="user"></a>
-      <a href="../../2.마이페이지/login.html"><img src="../icon/logOut.png" alt="logout"></a>
-    </div>
-  </nav>
+
 
   <!-- 오른쪽 메인 영역 -->
   <div class="main">

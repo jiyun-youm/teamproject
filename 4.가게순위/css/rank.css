@@ -13,55 +13,72 @@ body {
 }
 
 /* 왼쪽 네비게이션 - 교체본 */
-nav{
-  position: fixed;           /* 화면 왼쪽에 붙여 고정 */
-  inset: 0 auto 0 0;         /* top:0; left:0; bottom:0; */
-  width: 60px;
-  height: 100vh;
-  background-color:#ffffff;
-  border-right:1px solid #ccc;
-  z-index:1000;
+.menu {
+    width: 100px;
+    height: 100%;
+    margin: 0;
+    border-right: 1px solid black;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
 
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between; /* 위/아래 그룹 분리 */
-  align-items:center;            /* 아이콘 가로 가운데 */
-  padding:20px 0;
+    display: flex;
+    flex-direction: column;        
+    justify-content: space-between; 
+    padding: 50px 0;
+    box-sizing: border-box;
+    align-items: center;
 }
 
-nav a{
-  margin: 8px 0;
-  width: 100%;
-  height: 50px;
-  display: flex;                 /* ← flex 컨테이너로 전환 */
-  justify-content: center;       /* 가로 중앙 */
-  align-items: center;           /* 세로 중앙 */
-  text-align: center;            /* 텍스트가 들어와도 가운데 */
-  border-radius: 8px;
-  line-height: normal;           /* 기존 50px 제거 */
-}
-nav a:hover{background: #F8C74D;}
-nav a img{
-  width: 28px;
-  height: 28px;
-  display: block;                /* 인라인 공백/베이스라인 영향 제거 */
+.top {
+    display: flex;
+    flex-direction: column;
 }
 
-/* nav 내부 그룹 */
-.nav-top, .nav-bottom {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.top div {
+    margin-bottom: 40px;
 }
 
-.nav-bottom{
-  margin-bottom: 15px;
+.bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+.bottom div {
+    margin-bottom: 40px;
+}
+
+.bottom > div:last-child {
+    margin-bottom: 0;
+}
+
+/* 메뉴 버튼 */
+.menu button {
+    width: 70px;
+    height: 50px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.menu button img {
+    width: 40px;
+    height: 40px;
+}
+
+.menu button:hover {
+    background : #F8C74D;
+    border-radius: 8px;
 }
 .main {
     flex: 1;
-    display: flex; /* 좌/우 나누기 */
-    margin-left: 60px;   /* ← nav 폭만큼 밀기 */
+    display: flex;       /* 좌/우 나누기 */
+    margin-left: 100px;  /* ← 메뉴 폭만큼 밀기 */
 }
 
 .rank{

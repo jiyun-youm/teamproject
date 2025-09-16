@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>followfeed</title>
+    <link rel="stylesheet" href="followfeed.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="menu">
+    <div class="top">
+        <div class="home">
+            <button type="button" onclick="location.href='../1.지도/map_page/map.html'">
+                <img src="img/Home.png" alt="">
+            </button>
+        </div>
+        <div class="search">
+            <button type="button" onclick="location.href='followfeed.html'" style="background-color: #F8C74D; border-radius: 8px;" >
+                <img src="img/search.png" alt="">
+            </button>
+        </div>
+        <div class="follower">
+            <button type="button" onclick="location.href='../5.팔로워피드/05팔로워피드.html'">
+                <img src="img/Compass.png" alt="">
+            </button>
+        </div>
+        <div class="rank">
+            <button type="button" onclick="location.href='../4.가게순위/html/rank.html'">
+                <img src="img/Award.png" alt="">
+            </button>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div class="mypage">
+            <button type="button" onclick="location.href='../2.마이페이지/mypage.html'">
+                <img src="img/User.png" alt="">
+            </button>
+        </div>
+        <div class="login-icon">
+            <button type="button" onclick="location.href='../2.마이페이지/login.html'">
+                <img src="img/Log in.png" alt="">
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="page active" id="feedPage">
+    <div class="feed-wrapper">
+        <div class="feed-header">
+            <div class="feed-header-left">
+                <input type="text" placeholder="위치 검색..." class="location-search-input">
+                <button onclick="setCurrentLocation()">위치 설정</button>
+            </div>
+            <span class="current-location" id="currentLocationDisplay">현재 위치: 설정 안됨</span>
+        </div>
+        <div class="feed">
+            <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
+            <div class="thumbnail square" onclick="openPost()"><img src="img/food.jpg"></div>
+            <div class="thumbnail square" onclick="openPost()"><img src="img/food.jpg"></div>
+            <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
+            <div class="thumbnail square" onclick="openPost()"><img src="img/food.jpg"></div>
+            <div class="thumbnail shorts" onclick="openShorts()"><img src="img/food.jpg"></div>
+            <div class="thumbnail square" onclick="openPost()"><img src="img/food.jpg"></div>
+            <div class="thumbnail square" onclick="openPost()"><img src="img/food.jpg"></div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="postPage">
+    <div class="post-container">
+        <div id="postCardWrapper" class="post-card-wrapper">
+            <div class="post-card">
+                <div class="back-btn" onclick="goBack()">✕</div>
+                <div class="post-header">
+                    <div class="profile-dot"></div><span>user_456</span>
+                </div>
+                <div class="image-slider-container">
+                    <div class="image-slider">
+                        <img src="img/food.jpg" alt="Post image 1">
+                        <img src="img/food.jpg" alt="Post image 2">
+                        <img src="img/food.jpg" alt="Post image 3">
+                    </div>
+                    <div class="slider-dots"></div>
+                    <img src="img/arrow-left-circle.png" class="slider-btn prev-btn" alt="Previous">
+                    <img src="img/arrow-right-circle.png" class="slider-btn next-btn" alt="Next">
+                </div>
+                <div class="post-body">
+                    <div class="post-actions">
+                        <img src="img/heart.png" class="heart-icon" alt="Like">
+                        <div class="comment-action-wrapper" onclick="toggleCommentsPanel()">
+                            <img src="img/chat.png" alt="Comment">
+                            <p class="comment-count">17</p>
+                        </div>
+                        <img src="img/save.png" class="save-icon" alt="Save">
+                    </div>
+                    <div class="post-pins">
+                        <img src="img/pin.png" alt="pin">
+                        <img src="img/pin.png" alt="pin">
+                        <img src="img/pin.png" alt="pin">
+                        <img src="img/pin.png" alt="pin">
+                        <img src="img/pin.png" alt="pin">
+                    </div>
+                    <div class="post-content">
+                        <p class="post-content-title" onclick="openRestaurantInfo()">
+                            <strong>오오기리</strong> <span class="restaurant-type">일식</span>
+                        </p>
+                        <p class="content-text collapsed">
+                            처음에 왔을 때는 실패했는데 이번에는 브레이크 타임 전에 오는 데 성공했습니다.<br>우동 국물이 진하고 맛있었고, 유부초밥도 짭조름한 게 좋았습니다. 다만 아쉬웠던 건 가라아게 메뉴가 없던 거랑 장소에 비해 테이블이 적은 거... 그 외는 완벽합니다! 좋은 식당이에요. 
+                        </p>
+                        <button class="more-link" onclick="toggleFullContent(this)">더보기</button>
+                    </div>
+                </div>
+            </div>
+            <div id="commentsPanel" class="comments-panel comment-box">
+                <div class="comments-panel-content">
+                    <div class="comments-header">댓글 <span class="back-btn small-x" onclick="toggleCommentsPanel()">✕</span></div>
+                    <div class="comments">
+                        <div class="comment-item">
+                            <div class="profile-dot small green"></div>
+                            <div class="comment-main">
+                                <div class="comment-content"><strong>user_135</strong> <span>와우~맛있겠다~</span></div>
+                            </div>
+                            <button class="comment-like-btn"><img src="img/heart.png" class="heart-icon"></button>
+                        </div>
+                         <div class="comment-item">
+                            <div class="profile-dot small green"></div>
+                            <div class="comment-main">
+                                <div class="comment-content"><strong>user_135</strong> <span>와우~맛있겠다~</span></div>
+                                <div class="reply-wrapper" onclick="toggleReplies()">
+                                    <p class="reply-text">답글 2개</p>
+                                </div>
+                                <div class="nested-replies" style="display:none;">
+                                    <div class="comment-item">
+                                        <div class="profile-dot small blue"></div>
+                                        <div class="comment-main">
+                                            <div class="comment-content"><strong>user_135</strong> <span>와우~맛있겠다~</span></div>
+                                        </div>
+                                        <button class="comment-like-btn"><img src="img/heart.png" class="heart-icon"></button>
+                                    </div>
+                                    <div class="comment-item">
+                                        <div class="profile-dot small pink"></div>
+                                        <div class="comment-main">
+                                            <div class="comment-content"><strong>user_135</strong> <span>와우~맛있겠다~</span></div>
+                                        </div>
+                                        <button class="comment-like-btn"><img src="img/heart.png" class="heart-icon"></button>
+                                    </div>
+                                </div>
+                                <div class="comment-actions"><button class="reply-btn">답글 달기</button></div>
+                            </div>
+                            <button class="comment-like-btn"><img src="img/heart.png" class="heart-icon"></button>
+                        </div>
+                    </div>
+                    <div class="comment-input">
+                        <input type="text" placeholder="댓글 달기..."><button><img src="img/up.png"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="restaurantInfoPage">
+    <div class="post-container">
+        <div class="split-view">
+            <div class="split-left">
+                 <div class="post-card">
+                     <div class="post-header">
+                         <div class="profile-dot"></div><span>user_456</span>
+                     </div>
+                     <div class="image-slider-container">
+                         <div class="image-slider">
+                              <img src="img/food.jpg" alt="Post image 1">
+                              <img src="img/food.jpg" alt="Post image 2">
+                         </div>
+                         <div class="slider-dots"></div>
+                     </div>
+                     <div class="post-body">
+                         <div class="post-actions">
+                            <img src="img/heart.png" class="heart-icon" alt="Like">
+                            <div class="comment-action-wrapper">
+                                <img src="img/chat.png" alt="Comment">
+                                <p class="comment-count">17</p>
+                            </div>
+                            <img src="img/save.png" class="save-icon" alt="Save">
+                         </div>
+                         <div class="post-pins">
+                             <img src="img/pin.png" alt="pin">
+                             <img src="img/pin.png" alt="pin">
+                             <img src="img/pin.png" alt="pin">
+                             <img src="img/pin.png" alt="pin">
+                             <img src="img/pin.png" alt="pin">
+                         </div>
+                          <div class="post-content">
+                               <strong>오오카메</strong>
+                               <p>두툼한 계란말이가 올라간 일본식 라멘 맛집!</p>
+                          </div>
+                     </div>
+                 </div>
+            </div>
+            <div class="split-right-info">
+                <div class="back-btn" onclick="goBack()">✕</div>
+                <div class="restaurant-info-header">
+                    <h3>울밀대 강남점 <img src="img/link.png"></h3>
+                    <div class="rating-and-reviews">
+                        <p class="rating-info"><img src="img/pin.png" alt="pin"> 2345개</p>
+                        <span class="review-count">리뷰(3902건)</span>
+                    </div>
+                    <p class="details">서울 강남구 역삼로4길 46 지하1층(우) 06241(지번) 역삼동 826-37<br>02-552-1922</p>
+                </div>
+                <div class="other-reviews">
+                    <div class="review-item">
+                        <div class="review-container">
+                            <div class="review-left">
+                                <img src="img/food.jpg" class="review-image">
+                            </div>
+                            <div class="review-right">
+                                <div class="review-header">
+                                    <div class="profile-dot small green"></div>
+                                    <div class="user-info">
+                                        <strong>user_123</strong>
+                                    </div>
+                                    <div class="review-rating-mini">
+                                        <img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png">
+                                    </div>
+                                </div>
+                                <div class="review-content-body">
+                                    <p>처음에 왔을 때는 실패했는데 이번에는 브레이크 타임 전에 오는 데 성공했습니다.</p>
+                                    <div class="review-actions-mini">
+                                        <img src="img/heart.png" class="heart-icon" alt="Like">
+                                        <div class="comment-action-wrapper-mini">
+                                            <img src="img/chat.png" alt="Comment">
+                                            <p class="comment-count-mini">17</p>
+                                        </div>
+                                        <img src="img/save.png" class="save-icon" alt="Save">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-item">
+                         <div class="review-container">
+                             <div class="review-left">
+                                 <img src="img/food.jpg" class="review-image">
+                             </div>
+                             <div class="review-right">
+                                 <div class="review-header">
+                                     <div class="profile-dot small blue"></div>
+                                     <div class="user-info">
+                                         <strong>user_78</strong>
+                                     </div>
+                                     <div class="review-rating-mini">
+                                         <img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png"><img src="img/pin.png">
+                                     </div>
+                                 </div>
+                                 <div class="review-content-body">
+                                     <p>존맛탱입니다~</p>
+                                     <div class="review-actions-mini">
+                                         <img src="img/heart.png" class="heart-icon" alt="Like">
+                                         <div class="comment-action-wrapper-mini">
+                                             <img src="img/chat.png" alt="Comment">
+                                             <p class="comment-count-mini">17</p>
+                                         </div>
+                                         <img src="img/save.png" class="save-icon" alt="Save">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page" id="shortsPage">
+    <div class="shorts-container">
+        <div class="shorts-video-wrapper" id="shortsVideoWrapper">
+            <div class="back-btn" style="color:#fff;" onclick="goBack()">✕</div>
+            <video class="shorts-video" controls muted loop autoplay>
+                <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+            </video>
+            <div class="shorts-actions">
+                <span class="heart-action-wrapper">
+                    <img src="img/heart.png" class="heart-icon" alt="Like">
+                </span>
+                <span onclick="toggleShortsComments()">
+                    <img src="img/chat.png" alt="Comment">
+                </span>
+                <span class="save-action-wrapper">
+                    <img src="img/save.png" class="save-icon" alt="Save">
+                </span>
+            </div>
+        </div>
+        <div class="shorts-comments" id="shortsComments">
+            <div class="header">
+                <strong>댓글</strong>
+                <div class="close-btn">
+                    <span class="back-btn" onclick="toggleShortsComments()">✕</span>
+                </div>
+            </div>
+            <div class="comments">
+                <div class="comment-item">
+                    <div class="profile-dot small green"></div>
+                    <div class="comment-main">
+                        <div class="comment-content"><strong>user_789</strong> <span>영상 너무 멋져요!</span></div>
+                    </div>
+                    <button class="comment-like-btn"><img src="img/heart.png" class="heart-icon"></button>
+                </div>
+            </div>
+            <div class="comment-input">
+                <input type="text" placeholder="댓글 달기..."><button><img src="img/up.png"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="followfeed.js"></script>
+</body>
+</html>

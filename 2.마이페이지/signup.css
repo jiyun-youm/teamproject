@@ -1,0 +1,65 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  height: 100vh;
+  position: relative;
+}
+
+
+/* 회원가입 박스 */
+.main {
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  height: 100%;            
+}
+
+.signup-box img{
+    width: 250px;
+    height: 250px;
+    text-align: center; 
+}
+
+/* 입력 필드 */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.signup-box input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.signup-box input:focus {
+  border-color: #f8c74d;
+  outline: none;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  display: none;
+}
+
+/* 버튼 */
+.signupBtn {
+  width: 100%;
+  padding: 12px;
+  background: #f8c74d;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  color: #ffff;
+}
+
+.signupBtn:hover {
+  background: #fba62c;
+}

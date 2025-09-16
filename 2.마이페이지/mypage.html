@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="mypage.css">
+</head>
+<body>
+    
+    <div class="menu">
+        <div class="top">
+            <div class="home">
+                <button type="button" onclick="location.href='../1.지도/map_page/map.html'">
+                    <img src="img/Home.png" alt="">
+                </button>
+            </div>
+            <div class="search">
+                <button type="button" onclick="location.href='../3.추천피드/followfeed.html'">
+                    <img src="img/search.png" alt="">
+                </button>
+            </div>
+            <div class="follower">
+                <button type="button" onclick="location.href='../5.팔로워피드/05팔로워피드.html'">
+                    <img src="img/Compass.png" alt="">
+                </button>
+            </div>
+            <div class="rank">
+                <button type="button" onclick="location.href='../4.가게순위/html/rank.html'">
+                    <img src="img/Award.png" alt="">
+                </button>
+            </div>
+        </div>
+
+        <div class="bottom">
+            <div class="mypage">
+                <button type="button" onclick="location.href='mypage.html'" style="background-color: #F8C74D; border-radius: 8px;">
+                    <img src="img/User.png" alt="">
+                </button>
+            </div>
+            <div class="login-icon">
+                <button type="button" onclick="location.href='login.html'">
+                    <img src="img/Log in.png" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="user">
+            <div class="profile">
+                <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="120" height="120" rx="60" fill="#F8C74D"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M78.0007 48C78.0007 57.9411 69.9419 66 60.0007 66C50.0596 66 42.0007 57.9411 42.0007 48C42.0007 38.0589 50.0596 30 60.0007 30C69.9419 30 78.0007 38.0589 78.0007 48ZM72.0007 48C72.0007 54.6274 66.6281 60 60.0007 60C53.3733 60 48.0007 54.6274 48.0007 48C48.0007 41.3726 53.3733 36 60.0007 36C66.6281 36 72.0007 41.3726 72.0007 48Z" fill="#FFFF"/>
+                <path d="M60.0007 75C40.5776 75 24.0286 86.4852 17.7246 102.576C19.2603 104.101 20.878 105.543 22.5706 106.896C27.2648 92.1231 41.9909 81 60.0007 81C78.0106 81 92.7367 92.1231 97.4309 106.896C99.1235 105.544 100.741 104.101 102.277 102.576C95.973 86.4853 79.4239 75 60.0007 75Z" fill="#FFFF"/>
+                </svg>
+            </div>
+            <div class="user-right">
+                <div class="usermain">
+                    <div class="user-name">
+                        <div>user1</div>
+                    <button type="button" class="followBtn" onclick="follow()">follow</button>
+                    </div>
+                </div>
+
+                <div class="follower">
+                    <ul>
+                        <li>게시물 100</li>
+                        <li>팔로워 3.1K</li>
+                        <li>팔로우 200</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="post">
+            <div class="content">
+                <img src="img/원미옥.jpg" alt="">
+                <p>[한식] 원미옥</p>
+            </div>  
+            <div class="content">
+                <img src="img/나폴리회관.jpg" alt="">
+                <p>[양식] 나폴리회관</p>
+            </div>
+            <div class="content">
+                <img src="img/을지다락.jpg" alt="">
+                <p>[양식] 을지다락</p>
+            </div>
+            <div class="content">
+                <img src="img/치솟.jpg" alt="">
+                <p>[일식] 치솟</p>
+            </div>  
+            <div class="content">
+                <img src="img/남소관.jpg" alt="">
+                <p>[중식] 남소관</p>
+            </div>  
+            <div class="content">
+                <img src="img/육달집.jpg" alt="">
+                <p>[한식] 육달집</p>
+            </div>
+            <div class="content">
+                <img src="img/스시산원.jpg" alt="">
+                <p>[일식] 스시산원</p>
+            </div>
+            <div class="content">
+                <img src="img/땀땀.jpg" alt="">
+                <p>[기타] 땀땀</p>
+            </div>  
+        </div>
+
+    </div>
+
+
+<script>
+    function follow() {
+        let followBtn = document.querySelector(".followBtn");
+        if (followBtn.textContent === "follow") {
+            followBtn.textContent = "following";
+            followBtn.style.backgroundColor = "#FBA62C";
+            followBtn.style.Color = "black";
+        } else {
+            followBtn.textContent = "follow";
+            followBtn.style.backgroundColor = "#F8C74D";
+        }
+    }
+    
+</script>
+    
+
+</body>

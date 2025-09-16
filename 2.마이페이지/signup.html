@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="main">
+        <div class="signup-box">
+            <img src="img/logo.png" alt="">
+            <div class="form-group">
+                <input type="email" class="email" placeholder="이메일">
+                <div class="error-message email-error"></div>
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="pw" placeholder="비밀번호">
+                <div class="error-message pw-error"></div>
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="pwChk" placeholder="비밀번호 확인">
+                <div class="error-message pwChk-error"></div>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="name" placeholder="이름">
+                <div class="error-message name-error"></div>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="userId" placeholder="아이디">
+                <div class="error-message userId-error"></div>
+            </div>
+
+            <button type="button" class="signupBtn">가입하기</button>
+        </div>
+    </div>    
+
+  <script>
+    document.querySelector(".signupBtn").addEventListener("click", () => {
+        let email = document.querySelector(".email");
+        let pw = document.querySelector(".pw");
+        let pwChk = document.querySelector(".pwChk");
+        let name = document.querySelector(".name");
+        let userId = document.querySelector(".userId");
+
+        let emailError = document.querySelector(".email-error");
+        let pwError = document.querySelector(".pw-error");
+        let pwChkError = document.querySelector(".pwChk-error");
+        let nameError = document.querySelector(".name-error");
+        let userIdError = document.querySelector(".userId-error");
+
+        let valid = true;
+
+        // 이메일 검사
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.value)) {
+            emailError.textContent = "유효한 이메일을 입력하세요.";
+            emailError.style.display = "block";
+            valid = false;
+        } else {
+            emailError.style.display = "none";
+        }
+
+        // 비밀번호 검사 (8자 이상, 영문+숫자+특수문자)
+        let pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!pwRegex.test(pw.value)) {
+            pwError.textContent = "비밀번호는 8자 이상, 영문+숫자+특수문자를 포함해야 합니다.";
+            pwError.style.display = "block";
+            valid = false;
+        } else {
+            pwError.style.display = "none";
+        }
+
+        // 비밀번호 확인
+        if (pw.value !== pwChk.value || pwChk.value === "") {
+            pwChkError.textContent = "비밀번호가 일치하지 않습니다.";
+            pwChkError.style.display = "block";
+            valid = false;
+        } else {
+            pwChkError.style.display = "none";
+        }
+
+        // 이름 검사
+        if (name.value === "") {
+            nameError.textContent = "이름을 입력하세요.";
+            nameError.style.display = "block";
+            valid = false;
+        } else {
+            nameError.style.display = "none";
+        }
+
+        // 아이디 검사
+        if (userId.value === "") {
+            userIdError.textContent = "아이디를 입력하세요.";
+            userIdError.style.display = "block";
+            valid = false;
+        } else {
+            userIdError.style.display = "none";
+        }
+
+        if (valid) {
+            alert("회원가입이 완료되었습니다!");
+            window.close();
+        } else {
+            alert("입력조건을 확인하세요")
+        }
+    });
+
+</script>
+</body>
+</html>

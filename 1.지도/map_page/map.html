@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>지도 페이지</title>
+
+	<!-- tailwindcss import -->
+	<script src="https://cdn.tailwindcss.com"></script>
+
+	<!-- CSS 링크 -->
+	<link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body class="flex">
+
+  <div class="menu">
+        <div class="top">
+            <div class="home">
+                <button type="button" onclick="location.href='map.html'" style="background-color: #F8C74D; border-radius: 8px;">
+                    <img src="./assets/icons/Home.png" alt="">
+                </button>
+            </div>
+            <div class="search">
+                <button type="button" onclick="location.href='../../3.추천피드/followfeed.html'">
+                    <img src="./assets/icons/Search.png" alt="">
+                </button>
+            </div>
+            <div class="follower">
+                <button type="button" onclick="location.href='../../5.팔로워피드/05팔로워피드.html'">
+                    <img src="./assets/icons/Compass.png" alt="">
+                </button>
+            </div>
+            <div class="rank">
+                <button type="button" onclick="location.href='../../4.가게순위/html/rank.html'">
+                    <img src="./assets/icons/Award.png" alt="">
+                </button>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="mypage">
+                <button type="button" onclick="location.href='../../2.마이페이지/mypage.html'">
+                    <img src="./assets/icons/User.png" alt="">
+                </button>
+            </div>
+            <div class="login-icon">
+                <button type="button" onclick="location.href='../../2.마이페이지/login.html'">
+                    <img src="./assets/icons/Logout.png" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+	<!-- 지도 영역 -->
+	<main class="flex-1 relative">
+    	<div id="status">현재 위치 파악 중…</div>
+    	<button id="loadMore">더보기 (20개)</button>    
+    	<div id="map"></div>
+
+    	<!-- 지도 우측 하단 버튼 그룹 -->
+    	<div class="absolute bottom-4 right-4 z-[1000] flex items-center space-x-2 bg-none p-2 rounded-lg text-lg">
+    
+      		<!-- 한식 -->
+      		<button class="food-btn" aria-pressed="false">
+        		<span class="icon-wrap">
+        			<img src="./assets/map_icons/koreanfood_icon.png" alt="한식"/>
+        		</span>
+        		<span>한식</span>
+      		</button>
+
+      		<!-- 중식 -->
+      		<button class="food-btn" aria-pressed="false">
+        		<span class="icon-wrap">
+        			<img src="./assets/map_icons/chinesefood_icon.png" alt="중식"/>
+        		</span>
+        		<span>중식</span>
+      		</button>
+
+      		<!-- 일식 -->
+      		<button class="food-btn" aria-pressed="false">
+        		<span class="icon-wrap">
+        			<img src="./assets/map_icons/japanesefood_icon.png" alt="일식"/>
+        		</span>
+        		<span>일식</span>
+      		</button>
+
+      		<!-- 양식 -->
+      		<button class="food-btn" aria-pressed="false">
+        		<span class="icon-wrap">
+        			<img src="./assets/map_icons/westernfood_icon.png" alt="양식"/>
+        		</span>
+        		<span>양식</span>
+      		</button>
+
+      		<!-- 분식 -->
+      		<button class="food-btn" aria-pressed="false">
+        		<span class="icon-wrap">
+        			<img src="./assets/map_icons/schoolfood_icon.png" alt="분식"/>
+        		</span>
+        		<span>분식</span>
+      		</button>
+
+
+      		<!-- 확대/축소 -->
+      		<div class="flex flex-col ml-2">
+        
+        		<!-- 줌인 버튼 -->
+        		<button id="zoomIn" class="w-12 h-12 flex items-center justify-center bg-white rounded hover:bg-[#F8C74D] mb-1">+</button>
+        
+        		<!-- 줌 아웃 버튼 -->
+        		<button id="zoomOut" class="w-12 h-12 flex items-center justify-center bg-white rounded hover:bg-[#F8C74D] mb-1">-</button>
+    
+        		<!-- 현재 위치 -->
+        		<button id="currentLocationBtn" class="w-12 h-12 flex items-center justify-center bg-white rounded hover:bg-[#F8C74D]">
+        			<img src="./assets/icons/current_location.png" alt="현재 위치" class="w-5 h-5"/>
+        		</button>
+      		</div>
+    	</div>
+
+
+  
+    	<!-- 좌측 슬라이드 패널 -->
+    	<aside id="shopPanel" 
+    	class="fixed top-0 left-18 w-[40vw] h-full bg-white shadow-lg -translate-x-full transition-transform duration-300 z-[2000] overflow-y-auto">
+
+      		<!-- 검색칸으로 변경해야 함 -->
+      		<div class="p-4 flex justify-between items-center border-b bg-[#FBA62C]">
+        		<h2 class="text-lg font-bold">강남구 역삼1동</h2>
+        
+        		<!-- 추후에 검색 칸 추가 -->
+
+        		<!-- 슬라이드 닫기 버튼 -->
+        		<button id="panelClose" class="text-xl w-8 h-8 rounded hover:bg-[#845717]">×</button>
+      		</div>
+  
+      		<!-- JS에서 동적으로 내용을 채울 영역 -->
+      			<div id="shopContent" class="p-4"></div>
+    	</aside>
+	</main>
+
+	<!-- 리뷰 이미지 클릭 시 원본 크기로 사진 볼 수 있는 Lightbox Modal -->
+	<!-- Lightbox Modal -->
+	<div id="lightbox" class="fixed inset-0 z-[5000] hidden">
+  
+    	<!-- 반투명 백드롭 -->
+    	<div id="lbBackdrop" class="absolute inset-0 bg-black/70"></div>
+
+    	<!-- 콘텐츠 래퍼 -->
+    	<div class="relative w-full h-full grid place-items-center p-4">
+    
+      		<!-- 닫기 버튼 -->
+      		<button id="lbClose" class="absolute top-4 right-4 w-10 h-10 text-2xl 
+			bg-white/90 hover:bg-white rounded-full grid place-items-center shadow">×
+      		</button>
+
+      		<!-- 원본 이미지 -->
+      		<img id="lbImage" alt="원본 이미지"
+			class="w-[90vw] max-h-[85vh] h-auto object-contain rounded shadow-lg border bg-white"/>
+    		
+			<!-- 캡션 -->
+			<div id="lbCaption" class="mt-2 text-white/90 text-sm"></div>
+    	</div>
+	</div>
+  
+
+	<!-- 카카오 맵 API 및 라이브러리 추가 -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0698fb5cbfd3626afb61d071e360de06&libraries=services,clusterer"></script>
+    <script src="./script.js"></script>
+
+</body>
+</html>

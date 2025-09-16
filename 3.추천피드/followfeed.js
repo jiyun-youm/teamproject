@@ -182,7 +182,7 @@ function toggleFullContent(moreLink) {
 
 // 숏츠 댓글
 function toggleShortsComments() {
-    document.getElementById("shortsComments").classList.toggle("active");
+    document.getElementById("shortsComments").classList.toggle("open"); // 'active'를 'open'으로 변경
     document.getElementById("shortsVideoWrapper").classList.toggle("shifted");
 }
 

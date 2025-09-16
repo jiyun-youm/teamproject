@@ -406,6 +406,27 @@ body {
     padding:12px; font-weight:bold; 
     border-bottom:1px solid var(--border-color); 
 }
+
+.shorts-comments .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.shorts-comments .header .close-btn {
+    margin-left: auto; /* 이 속성이 'X' 버튼을 오른쪽 끝으로 보냅니다. */
+    cursor: pointer;
+}
+
+.shorts-comments .header .close-btn .back-btn {
+    font-size: 20px;
+    color: #777;
+    font-weight: bold;
+}
+
 .shorts-comments-list { 
     flex:1; overflow-y:auto; padding:12px; font-size:13px; color:#333; 
 }
